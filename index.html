@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07070f"><meta name="color-scheme" content="dark">
+<title>Daphne 攻略中樞｜Wizardry Variants Daphne</title>
+<style>:root{--bg:#07070f;--bg2:#0e0e1c;--card:#12122a;--line:#25254a;--tx:#e8e8ff;--tx2:#a2a2c8;--cy:#00e5ff;--pk:#ff2bd6;--yl:#ffe600;--gr:#39ff9f}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei","Hiragino Sans",sans-serif;font-size:15px;line-height:1.65;
+background-image:radial-gradient(circle at 15% -10%,rgba(255,43,214,.18),transparent 45%),radial-gradient(circle at 100% 10%,rgba(0,229,255,.15),transparent 40%),linear-gradient(rgba(0,229,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.04) 1px,transparent 1px);background-size:auto,auto,28px 28px,28px 28px;background-attachment:fixed}
+a{color:var(--cy)}mark{background:rgba(255,230,0,.25);color:var(--yl);border-radius:3px;padding:0 2px}
+.wrap{max-width:980px;margin:0 auto;padding:0 14px 80px}
+header.hero{padding:26px 0 10px}
+.hero .kick{font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;color:var(--cy);text-transform:uppercase}
+.hero h1{margin:8px 0 6px;font-size:28px;line-height:1.2;background:linear-gradient(90deg,var(--cy),var(--pk));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 24px rgba(0,229,255,.25)}
+.hero p{margin:0;color:var(--tx2);font-size:14px}
+.bar-top{position:sticky;top:0;z-index:10;background:rgba(7,7,15,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);margin:0 -14px;padding:10px 14px 8px;border-bottom:1px solid var(--line)}
+.search{display:flex;gap:8px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:0 10px;box-shadow:0 0 0 1px rgba(0,229,255,.05) inset}
+.search:focus-within{border-color:var(--cy);box-shadow:0 0 14px rgba(0,229,255,.35)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--tx);font-size:16px;padding:11px 0}
+.search .ic{color:var(--cy)}.search button{background:none;border:0;color:var(--tx2);font-size:18px;padding:4px 6px;cursor:pointer}
+#tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tab{background:var(--bg2);color:var(--tx2);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer}
+.tab.on{color:#05050c;background:linear-gradient(90deg,var(--cy),var(--pk));border-color:transparent;font-weight:700;box-shadow:0 0 12px rgba(255,43,214,.45)}
+#info{font-size:13px;color:var(--yl);margin-top:6px}#info:empty{display:none}
+.toc{margin:16px 0;display:flex;flex-wrap:wrap;gap:6px}.toc-t{width:100%;font:600 11px ui-monospace,monospace;letter-spacing:.15em;color:var(--pk)}
+.toc a{font-size:13px;text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:4px 9px;background:var(--bg2)}
+.sec{margin-top:26px;scroll-margin-top:130px}
+.sec h2{font-size:20px;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.hx{color:var(--pk);font-family:ui-monospace,monospace}
+.cap,.note{color:var(--tx2);font-size:13px;margin:4px 0 10px}
+details.sub{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden}
+details.sub>summary{cursor:pointer;list-style:none;padding:12px 14px;font-weight:700;color:var(--cy);position:relative}
+details.sub>summary::-webkit-details-marker{display:none}
+details.sub>summary::after{content:"＋";position:absolute;right:14px;color:var(--pk)}details.sub[open]>summary::after{content:"－"}
+details.sub>*:not(summary){margin-left:14px;margin-right:14px}details.sub>*:last-child{margin-bottom:14px}
+.rows .row{padding:9px 0;border-top:1px solid var(--line)}.rows .row:first-child{border-top:0;padding-top:0}
+.rows b,.steps b{display:block;color:var(--tx)}.rows span,.steps span{display:block;color:var(--tx2);font-size:14px}
+ol.steps{list-style:none;padding:0;counter-reset:s}ol.steps li{counter-increment:s;position:relative;padding:0 0 12px 40px}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 13px ui-monospace,monospace;color:var(--bg);background:var(--cy);box-shadow:0 0 10px var(--cy)}
+ol.steps li:not(:last-child)::after{content:"";position:absolute;left:13px;top:30px;bottom:2px;width:2px;background:linear-gradient(var(--cy),transparent)}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;color:var(--pk);font-weight:600;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.callout{border:1px solid var(--line);border-left:3px solid var(--pk);background:linear-gradient(90deg,rgba(255,43,214,.08),transparent);border-radius:12px;padding:12px 14px;margin:12px 0}
+.callout.info{border-left-color:var(--cy);background:linear-gradient(90deg,rgba(0,229,255,.1),transparent)}
+.callout b{color:var(--tx)}.callout p{margin:4px 0 0;color:var(--tx2);font-size:14px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+.chip{background:var(--bg2);border:1px solid var(--line);color:var(--tx2);border-radius:8px;padding:5px 10px;font-size:13px;cursor:pointer}
+.chip small{color:var(--pk)}.chip.on{border-color:var(--cy);color:var(--cy);box-shadow:0 0 10px rgba(0,229,255,.35)}
+.sel{font-size:13px;color:var(--tx2)}.sel select{background:var(--bg2);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:15px}
+.cnt{font-size:12px;color:var(--tx2);margin-left:auto}
+.cards{display:grid;grid-template-columns:1fr;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.card.top{border-color:rgba(255,43,214,.6);box-shadow:0 0 16px rgba(255,43,214,.18)}
+.ch{display:flex;gap:10px;align-items:center}.nm{flex:1;min-width:0}.nm b{display:block;font-size:15px}.nm small{color:var(--tx2);font-size:12px}
+.tier{flex:none;min-width:42px;text-align:center;font:800 14px ui-monospace,monospace;padding:6px 4px;border-radius:8px;border:1px solid var(--line);color:var(--tx)}
+.tSSp,.tSS{color:#05050c;background:linear-gradient(135deg,var(--yl),var(--pk));border:0;box-shadow:0 0 12px rgba(255,43,214,.5)}
+.tSp{color:var(--pk);border-color:var(--pk)}.tS{color:var(--cy);border-color:var(--cy)}.tAp,.tA{color:var(--gr);border-color:rgba(57,255,159,.5)}.tB{color:var(--tx2)}
+.en{font:600 11px ui-monospace,monospace;color:var(--tx2);border:1px dashed var(--line);border-radius:6px;padding:2px 6px;flex:none}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 4px}.tags span{font-size:12px;padding:1px 8px;border-radius:999px;background:rgba(0,229,255,.08);color:var(--cy);border:1px solid rgba(0,229,255,.25)}
+.card p{margin:4px 0 0;font-size:13.5px;color:var(--tx2)}
+.plain{color:var(--tx2);font-size:14px}.empty{color:var(--tx2)}
+.bars{display:grid;gap:8px}.bar{display:grid;grid-template-columns:1fr;gap:3px}
+.bl{font-size:13px;color:var(--tx2)}.bt{display:block;height:12px;background:var(--bg2);border-radius:6px;overflow:hidden;position:relative}
+.bt i{display:block;height:100%;background:linear-gradient(90deg,rgba(0,229,255,.5),rgba(0,229,255,.9));border-radius:6px}
+.bar.em .bt i{background:linear-gradient(90deg,var(--cy),var(--pk));box-shadow:0 0 10px var(--pk)}.bv{font:600 13px ui-monospace,monospace;color:var(--tx)}
+ul.links{list-style:none;padding:0;margin:0}ul.links li{padding:8px 0;border-top:1px solid var(--line)}ul.links li:first-child{border-top:0}
+ul.links a{display:block;text-decoration:none;word-break:break-word}ul.links small{color:var(--tx2);font-size:12px}
+#top{position:fixed;right:14px;bottom:18px;width:46px;height:46px;border-radius:50%;border:1px solid var(--cy);background:rgba(7,7,15,.9);color:var(--cy);font-size:18px;opacity:0;pointer-events:none;transition:.2s;box-shadow:0 0 12px rgba(0,229,255,.4)}
+#top.vis{opacity:1;pointer-events:auto}
+footer{margin-top:30px;color:var(--tx2);font-size:12px;text-align:center}
+@media (max-width:640px){
+ table.stack thead{display:none}table.stack tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
+ table.stack td{display:grid;grid-template-columns:5.5em 1fr;gap:8px;border:0;padding:3px 0}
+ table.stack td::before{content:attr(data-l);color:var(--pk);font-size:12px}
+ .hero h1{font-size:24px}}
+@media (min-width:700px){.cards{grid-template-columns:1fr 1fr}.bar{grid-template-columns:11em 1fr 3.5em;align-items:center}}
+
+.tC{color:#c9a96b;border-color:rgba(201,169,107,.6)}.tD{color:#9a8f86;border-color:rgba(154,143,134,.5)}.tE{color:#7d7d8a;border-color:rgba(125,125,138,.45)}
+.card .ch img.pt{width:56px;height:70px;object-fit:cover;object-position:top;border-radius:8px;flex:0 0 56px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);cursor:zoom-in}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:8px 0}
+.gal.boss{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.gal figure{margin:0;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden}
+.gal img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#0b0b14;cursor:zoom-in}
+.gal.boss img{aspect-ratio:710/373}
+.gal figcaption{padding:6px 8px;font-size:13px;line-height:1.4}.gal figcaption small{opacity:.7}
+.mh{margin:14px 0 4px;font-size:15px;color:var(--cy)}.credit{font-size:12px;opacity:.75;margin:2px 0 10px;word-break:break-all}
+#lb{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.92);display:none;flex-direction:column;align-items:center;justify-content:center;padding:12px}
+#lb.on{display:flex}#lb img{max-width:100%;max-height:85vh;object-fit:contain;touch-action:pinch-zoom}#lb p{color:#ddd;font-size:14px;margin:8px 0 0}
+#lb button{position:absolute;top:10px;right:14px;font-size:32px;background:none;border:0;color:#fff;cursor:pointer}
+</style></head><body>
+<div class="wrap">
+<header class="hero"><div class="kick">Wizardry Variants Daphne // Guide Hub</div>
+<h1>Daphne 攻略中樞</h1>
+<p>Wizardry Variants Daphne（辟邪除妖 Variants Daphne）的中日英攻略整理：新手系統、職業隊伍、角色 Tier、裝備鍛造、各章 Boss、資源抽卡與卡關 FAQ。資料截至 2026/10/29，日版 Ver 2.0.0（二周年）。</p></header>
+<div class="bar-top">
+<div class="search"><span class="ic">⌕</span><input id="q" type="search" placeholder="例如：愛麗絲、アリス、Gatekeeper、凍結、等級試驗" aria-label="全站搜尋（中、日、英文名都可以）" autocomplete="off"><button id="clr" aria-label="清除">×</button></div>
+<div id="tabs" role="tablist"></div><div id="info"></div></div>
+<main id="main"></main>
+<footer>離線版 · 資料整理於 2026/10/29（台北時間）· 角色譯名依繁中官網 · 立繪取自官網，地圖取自 Gamerch／AppMedia</footer>
+</div>
+<button id="top" aria-label="回頂端">▲</button>
+<noscript><p style="color:#fff;padding:20px">此頁需要啟用 JavaScript。</p></noscript>
+<script>
+const PT={"アリス": "img/por/p000.webp", "アリアノート": "img/por/p001.webp", "雪袖アリス": "img/por/p002.webp", "ユズナミキ": "img/por/p003.webp", "夢現シェリリーニャ": "img/por/p004.webp", "フィリシア": "img/por/p005.webp", "ザイド": "img/por/p006.webp", "カゲロウ": "img/por/p007.webp", "明鏡シオウ": "img/por/p008.webp", "閃耀アベニウス": "img/por/p009.webp", "シェリリーニャ": "img/por/p010.webp", "アルボリス": "img/por/p011.webp", "アベニウス": "img/por/p012.webp", "水着エカテリーナ": "img/por/p013.webp", "エカテリーナ": "img/por/p014.webp", "放浪ラナヴィーユ": "img/por/p015.webp", "ラナヴィーユ": "img/por/p016.webp", "墜星アルボリス": "img/por/p017.webp", "プリッシュ": "img/por/p018.webp", "常闇リンネ": "img/por/p019.webp", "水鏡リヴァナ": "img/por/p020.webp", "破天サヴィア": "img/por/p021.webp", "アネモネ": "img/por/p022.webp", "リナリア": "img/por/p023.webp", "守護者ジラルド": "img/por/p024.webp", "ユルサ": "img/por/p025.webp", "シオウ": "img/por/p026.webp", "イアルマス": "img/por/p027.webp", "リンネ": "img/por/p028.webp", "ゲルルフ": "img/por/p029.webp", "イロハ": "img/por/p030.webp", "アイニッキ": "img/por/p031.webp", "挑戦者ベルカナン": "img/por/p032.webp", "ギリオン": "img/por/p033.webp", "舞姫デボラ": "img/por/p034.webp", "追想アダム": "img/por/p035.webp", "リヴァナ": "img/por/p036.webp", "ベルカナン": "img/por/p037.webp", "デボラ": "img/por/p038.webp", "アダム": "img/por/p039.webp", "エルヴィン": "img/por/p040.webp", "ガルバドゥス": "img/por/p041.webp", "オルドリック": "img/por/p042.webp", "サヴィア": "img/por/p043.webp", "赤ひげ": "img/por/p044.webp", "ジラルド": "img/por/p045.webp", "カミール": "img/por/p046.webp", "キリハ": "img/por/p047.webp", "エリゼ": "img/por/p048.webp", "ミラナ": "img/por/p049.webp", "聖女マリアンヌ": "img/por/p050.webp", "マリアンヌ": "img/por/p051.webp", "寂夜ミラナ": "img/por/p052.webp", "ヨイゾウ": "img/por/p053.webp", "ラファエロ": "img/por/p054.webp", "ハインリコ": "img/por/p055.webp", "水着クロエ": "img/por/p056.webp", "ブゲン": "img/por/p057.webp", "バルバラ": "img/por/p058.webp", "ガンドルフォ": "img/por/p059.webp", "クラリーサ": "img/por/p060.webp", "クロエ": "img/por/p061.webp", "ベンジャミン": "img/por/p062.webp", "ヴァルドル": "img/por/p063.webp", "フルート": "img/por/p064.webp", "寂夜フルート": "img/por/p065.webp", "アーシャ": "img/por/p066.webp", "ヤルミル": "img/por/p067.webp", "夕凪エリゼ": "img/por/p068.webp", "逢魔アーシャ": "img/por/p069.webp", "ディノ": "img/por/p070.webp", "逢魔ハインリコ": "img/por/p071.webp", "アメリア": "img/por/p072.webp", "アレックス": "img/por/p073.webp", "エーミル": "img/por/p074.webp", "エッカルト": "img/por/p075.webp", "エルドラド": "img/por/p076.webp", "ガリーナ": "img/por/p077.webp", "ジャン": "img/por/p078.webp", "ダニエル": "img/por/p079.webp", "バケシュ": "img/por/p080.webp", "ビビアナ": "img/por/p081.webp", "フィリプ": "img/por/p082.webp", "エウラリア": "img/por/p083.webp", "エルダー": "img/por/p084.webp", "オフェーリア": "img/por/p085.webp", "オリーブ": "img/por/p086.webp", "ガストン": "img/por/p087.webp", "人間侍": "img/por/p088.webp", "人間女忍者": "img/por/p089.webp", "エルフ女魔術師": "img/por/p090.webp", "エルフ僧侶": "img/por/p091.webp", "ドワーフ騎士": "img/por/p092.webp", "人間女僧侶": "img/por/p093.webp", "人間戦士": "img/por/p094.webp", "獣人女盗賊": "img/por/p095.webp"};
+const MAPCH={"1": "第一章 初始的奈落", "2": "第二章 貿易水路", "3": "第三章 不落的要塞（瓜爾達要塞）", "4": "第四章 豪雪地帶 伊斯貝克"};
+const MAPS=[[1, "B1F", "奈落B1F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-00.webp"], [1, "B2F", "奈落B2F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-01.webp"], [1, "B3F", "奈落B3F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-02.webp"], [1, "B4F", "奈落B4F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-03.webp"], [1, "B5F", "奈落B5F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-04.webp"], [1, "B6F", "奈落B6F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-05.webp"], [1, "B7F", "奈落B7F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-06.webp"], [1, "B8F", "奈落B8F", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-07.webp"], [1, "哥布林巢穴", "ゴブリンの巣", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/877635", "img/maps/c1-08.webp"], [2, "1丁目", "1丁目", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-09.webp"], [2, "2丁目", "2丁目", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-10.webp"], [2, "3丁目", "3丁目", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-11.webp"], [2, "4丁目", "4丁目", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-12.webp"], [2, "5丁目", "5丁目", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-13.webp"], [2, "6丁目", "6丁目", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-14.webp"], [2, "7丁目", "7丁目", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-15.webp"], [2, "亡骸之海邊", "亡骸の海辺", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-16.webp"], [2, "船內 1 層（船艙）", "船内1層-船倉", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-17.webp"], [2, "船內 2 層（交誼廳）", "船内2層-ラウンジ", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-18.webp"], [2, "甲板（鬥技場）", "甲板-闘技場", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-19.webp"], [2, "被遺忘的海盜港", "忘れられた海賊港", "Gamerch ウィズダフネ攻略Wiki", "https://gamerch.com/wizardry-daphne/878880", "img/maps/c2-20.webp"], [3, "1區", "1区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-21.webp"], [3, "2區", "2区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-22.webp"], [3, "3區", "3区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-23.webp"], [3, "4區", "4区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-24.webp"], [3, "5區", "5区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-25.webp"], [3, "6區", "6区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-26.webp"], [3, "7區", "7区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-27.webp"], [3, "8區", "8区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-28.webp"], [3, "9區", "9区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-29.webp"], [3, "10區", "10区", "AppMedia", "https://appmedia.jp/wizdaphne/78659675", "img/maps/c3-30.webp"], [4, "行程1", "行程1", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-31.webp"], [4, "行程2", "行程2", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-32.webp"], [4, "行程3", "行程3", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-33.webp"], [4, "行程4", "行程4", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-34.webp"], [4, "行程5", "行程5", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-35.webp"], [4, "行程6", "行程6", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-36.webp"], [4, "行程7", "行程7", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-37.webp"], [4, "行程8", "行程8", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-38.webp"], [4, "行程9", "行程9", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-39.webp"], [4, "行程10", "行程10", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-40.webp"], [4, "教會區域", "教会区域", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-41.webp"], [4, "魔女洞窟 B1F", "魔女の洞窟B1F", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-42.webp"], [4, "魔女洞窟 B2F", "魔女の洞窟B2F", "AppMedia", "https://appmedia.jp/wizdaphne/79585772", "img/maps/c4-43.webp"]];
+const BOSSIMG={"2": ["img/boss/b2.webp", "https://appmedia.jp/wizdaphne/78361607"], "3": ["img/boss/b3.webp", "https://appmedia.jp/wizdaphne/78397241"], "4": ["img/boss/b4.webp", "https://appmedia.jp/wizdaphne/78633293"], "5": ["img/boss/b5.webp", "https://appmedia.jp/wizdaphne/79586663"], "6": ["img/boss/b6.webp", "https://appmedia.jp/wizdaphne/79591994"], "7": ["img/boss/b7.webp", "https://appmedia.jp/wizdaphne/79593677"]};
+const TABS=[["all","全部"],["start","新手・系統"],["party","職業・隊伍"],["tier","角色 Tier"],["gear","技能・裝備"],["boss","迷宮・Boss"],["res","資源・抽卡"],["faq","卡關 FAQ"],["src","來源"]];
+const GROUPS=[
+{tab:"start",heading:"最重要的 5 件事",steps:true,items:[
+["角色幾乎不會真的永久消失","只有「寺院復活失敗→變灰→再失敗」才會永久失去。メンタル（Fortitude）回到 50 以上再去寺院復活就安全。"],
+["主角陣亡選「再起」，不要選「死を受け入れる」","再起最多 3 次、會隨時間回復，回到那場戰鬥之前；接受死亡會被送回存檔點，部分進度要重跑。"],
+["不要急著克己、繼承、引退角色","素材角色會消失且不可逆。巴哈老手建議先打完前兩章再決定，不確定就先上巴哈或 Discord 問。"],
+["前期打 2–3 場就回城","經驗要在旅館（宿屋）住宿才會升級。先找到哈肯（ハーケン）再往深處走。"],
+["隊伍一定要有僧侶，身上帶 3–5 瓶回復藥","僧侶是續航命脈；回復藥留到 HP 變紅再用。"]]},
+{tab:"start",heading:"死亡、メンタル與復活",items:[
+["メンタル（Fortitude／精神值）","上限 80/90/100，每 6 分鐘回 1，死亡中也會回。死亡 −30、寶箱陷阱 −4~−5、解除失敗 −1、主角再起時全員 −5。主角沒有顯示メンタル，可讓主角開寶箱分擔（Gamerch 註：內部可能仍有影響）。"],
+["戰鬥中復活（逆転の右手／Right Hand of Reversal）","沒有永久死亡風險，但每次陣亡事件只能救一人；點失敗主角會掉血或麻痺。"],
+["救不了就讓主角陣亡再起","隊友在同一場戰鬥先死、主角接著陣亡並再起，隊友會一起復活（Gamerch 情況 A）。被奇襲或打不贏時特別好用。"],
+["寺院復活","メンタル 50 以下有失敗風險。可捐寶石（貴石）保證復活，每天最多 3 次（Gamerch）。最省的方法是把角色放板凳等メンタル回滿。"],
+["復活點擊時機","圓圈一出現就點；30fps 最穩，60fps 約晚 0.3–0.5 秒。メンタル越低圓圈越小（Community Guide）。"]]},
+{tab:"start",heading:"探索、安全區與鑰匙",items:[
+["哈肯（ハーケン／Harken）","可回城、在哈肯之間傳送；大哈肯能給隊伍強力加護。等級低時不要硬衝去找下一個。"],
+["命の井戸（生命之井）","每個遊戲日 1 次全回 HP/MP/SP，也能開營地和隊友對話。日期在旅館住宿後推進。"],
+["ハーケンの鉤（Hook of Harken）","緊急撤退道具，第二章水路被水流沖走時救命，必帶。"],
+["鑰匙與上鎖門","第一章 B2F 用「奈落の鍵」開的房間有戰士、盜賊、僧侶、法師的遺骸。水路紅色門要接依頼「双頭の蛇」拿到合鍵才開。"],
+["陷阱與寶箱","毒床、陷阱床會扣血和メンタル。寶箱交給盜賊（罠解除看器用、罠發現看知恵）。派遣隊不放盜賊容易炸箱。"],
+["Cursed Wheel（カースドホイール）","第一章二周目解鎖，可回到劇情節點重做分支。各章的好結局、真結局都需要多輪迴。"]]},
+{tab:"start",heading:"戰鬥基本",items:[
+["前排與後排","前排近戰武器 100% 發揮但較常被打；後排近戰傷害與命中下降、閃避上升。後排用弓、槍、苦無。主角放後排拿弓較安全。"],
+["隙（Opening）","防禦敵人物理攻擊→敵人頭上出現「！」→下一擊必中，傷害依敵人 HP 比例。範圍攻擊要被打的那排多人一起防禦。出隙後的下一次攻擊防禦不會再出隙。"],
+["睡眠 KATINO（カティノ）","打睡著的敵人必定爆擊，物理魔法都算。兩名法師時一人睡、一人放列魔法最省 MP。"],
+["屬性相剋","火剋風、風剋土、土剋水、水剋火；光暗互剋。打弱點 +30%，角色本身屬性與武器或呪文同屬再疊到 +60%。屬性防具每件減該屬性傷害 15%，最多 3 件 45%。"],
+["Buff 上限 3 個","超過會被覆蓋，看不出效果時先檢查。"],
+["逃跑","每位隊員的回合都能嘗試，一回合最多 6 次機會；賞金首戰 100% 可逃。"],
+["主角性格（Alignment）","戰前選「給治療道具」+2 善、「無視」+1 善；「伏擊」+2 惡、「攻擊」「哀求」+1 惡。隊友性格固定。"]]},
+{tab:"party",heading:"屬性點（BP）分配原則",items:[
+["速度在所有職業都不虧","影響行動順序、閃避、罠回避。不確定最終職業時點速度最保險（Gamerch）。"],
+["速度排序","建議維持 法師 > 戰士 = 僧侶。巴哈：法師速度約 65 才能先手第二章船內 2 層的魅魔。"],
+["騎士不要全點速度","騎士の守り最佳狀態是全隊比敵人快、騎士在隊上最慢，這樣減傷正好蓋到敵人回合。"],
+["BP 只能重洗一次","BP 5–10 點（10 點僅 1%）。點錯不能重洗，只有同一化時能重洗一次。總克己超過 10 後每升一級 +1 BP。"]]},
+{tab:"party",heading:"推薦隊伍組成",items:[
+["通用（Gamerch）","前：戰士／主角／戰士（或騎士）。後：盜賊／法師／僧侶。"],
+["雙法師（前兩章清怪快）","前：戰士（騎士）／主角／盜賊。後：法師／法師／僧侶。"],
+["常駐傳說最強（Gamerch）","前：主角（中立）／拉納維爾／雅蓓妮斯。後：愛麗絲／葉卡／黛波拉。主角中立時與黛波拉換位仍吃得到愛麗絲、拉納維爾的排加成。"],
+["巴哈第一章實戰（一周目 Lv20、二周目 Lv30）","前：拉納維爾／主角（戰士）／雅蓓妮斯。後：愛麗絲／葉卡／黛波拉。"],
+["高難度王戰（Gamerch）","前：盜賊（騎士）／戰士／戰士（武士）。後：主角（戰士或騎士，持槍或弓）／僧侶（治癒師）／法師。全員找機會用渾身の一撃。"],
+["對付會強化自己的敵人","前：盜賊（戰士）／忍者／戰士。後：主角（騎士）／僧侶／法師。忍者用「霧消」消敵方 buff，來不及就靠騎士の守り硬吃。"],
+["低稀有善隊（Gamerch）","前：芭芭拉（バルバラ）／艾莉賽（エリゼ）或克洛艾（クロエ）。後：瑪麗安娜（マリアンヌ）／芙爾特（フルート）或亞莎（アーシャ）／讓（ジャン）。省 SP、MP，適合長期戰。"],
+["排加成怎麼放","愛麗絲：同排全為惡或中立時增傷。拉納維爾：同排全為善或中立時增傷。所以主角保持中立最有彈性。"],
+["轉職組合評價（AppMedia）","◎ 僧侶×法師、戰士×騎士、戰士×盜賊；○ 戰士×僧侶、忍者。"],
+["角色配比（Community Guide）","主輸出 1–2、副輸出 2–3、輔助 2–3、治療 1–2，靠「一人兼多職」壓進 6 人。"]]},
+{tab:"gear",heading:"強化與鍛造流程",steps:true,items:[
+["前期 +1~+4 先停","很便宜、不虧；+5 起需要鐵礦石、費用暴增（Gamerch）。卡關時防具各 +1 也有感。"],
+["前排優先","武器與前排防具先強化，後排之後再補。"],
+["+5/+10/+15/+20 解鎖追加護","每個節點解鎖或強化第 1–4 條追加護（Blessing），裝備顏色白→綠→藍→紫→紅。"],
+["超過 +5 要合一化（合一化／Unify）","吃同名裝備提高限界強度。2026/3/27 更新起改為點數制，初始裝備一件 1 點，26 點吃滿。"],
+["變造在前、精鍊在後","變造（Alteration）要在該欄位的強化節點之前做，否則強化加成會被洗掉；精鍊（Refine）強化後再做也會保留（1.12.1 起）。"],
+["抽出（Extract）","每條追加護約 20% 機率產出石頭，石頭星數看裝備品質★，不看數值。"]]},
+{tab:"gear",heading:"武器與裝備選擇",items:[
+["雙手武器現在是主流","2025/9/15 攻擊公式調整後雙手武變強。巴哈 2026/6 新手文：直上雙手武，二章水路 1–3 丁目刷鋼階雙手，三章刷冥鋼（最好是破魔）雙手，冥鋼破魔雙手（含弓）到四章都能用。舊日文文章寫「單手＋盾較好」的屬於改版前。"],
+["不死系要退魔武器","第一章 B6F 後出現不死系，沒有不死特效很難打。B7F 以後「冥刻」字樣的ガラクタ可換到退魔武器。"],
+["屬性武器","水路多數敵人弱土（去土の魔窟刷）；要塞 1–3 區敵人屬土，帶風屬。"],
+["要塞推薦配裝（Gamerch）","武器鋼級 +20、前排鐵或鋼級防具 +15 以上、前排閃避 130–140。巴哈補充：改版後 Lv50–54、閃避 80–100、冥鋼武器 +10~+15 也能過要塞三周目。"],
+["特典裝備","限定池附的特典裝備初始可強化到 +10，但品質隨機，Community Guide 認為通常不值得特別追。"],
+["自動裝備小心","自動裝備優先稀有度，可能讓攻擊力下降，強化過的請手動裝。"]]},
+{tab:"gear",heading:"技能重點",items:[
+["渾身の一撃（Full Power Strike）","戰士 SP 效率最高的爆發技，出手前隊友還能先上 buff；王戰主力。"],
+["騎士の守り（Knight's Defense）","騎士 Lv51 學會，1 回合內全隊減傷約 40%（技能 Lv1），是硬吃全體大招的關鍵。"],
+["MONTINO（封魔）","對大多數會施法的敵人成功率高，效果持續整場。"],
+["KANTIOS（混亂）","法師 Lv40 學會。睡眠無效時用來打斷大招，例如蠍女蓄力後。"],
+["MASOLOTU＋DILTO","提升我方閃避＋降低敵方命中，雜魚幾乎打不到你；對高命中或施法者無效。"],
+["遲緩攻擊（Delay Attack）","盜賊技能，推遲敵人回合；王第一次通常吃得到，之後成功率大降。"],
+["驅散 buff","忍者「霧消」、法師「呪滅の風」可消除敵人的強化。"],
+["聖堂加護","減傷技能書，第二章教皇線大異形獎勵，每月可再拿一次；巴哈建議二章先走教皇線。"]]},
+{tab:"gear",heading:"克己、繼承、同一化、轉職",items:[
+["克己（Discipline）","重複角色疊加強化。克己到 9 所需同名角色：傳說 15 隻、一般 35 隻、無名 70 隻（Gamerch）。ドッペル水銀 1 個 = 25 克己點。"],
+["繼承（Inheritance）","把角色的繼承技能傳給別人（含主角），沒有已知的繼承數上限；用研鑽の宝典升技能等級。"],
+["同一化（Merging）","同角色不同風格合併：可重洗 BP 一次，メンタル取較高者。"],
+["轉職保留技能","已學技能轉職後保留（職業專用技除外，例如戰士的渾身の一撃、騎士の守り）。轉去僧侶學解狀態再轉回，是常見往返玩法。"],
+["主角轉職","主角可轉遊俠、治癒師以外的所有職業，並用心器の淵自訂能力與屬性（AppMedia）。"],
+["轉職書","寶石商每週隨機 4 本，每本 400 寶石（其中 2 本限紫寶石）；看到需要的再買。"]]},
+{tab:"boss",heading:"各章 Boss 打法細節",items:[
+["第一章 蠍女（サソリ女／Scorpion Lady）","腐蝕液降前排物防、甩尾暈一排、鉗擊會換位→立刻把隊形調回。Build Up 蓄力一回合後重擊被瞄準者與其後方，兩人都防禦。用風屬（そよ風の剣、FERU）。"],
+["第一章 大異形 赫爾穆特（暫譯；ヘルムート／Helmut）","弱風。把ディガーピッケル（Digging Mattock）給非主角的前排清他造的瓦礫，逆轉之右手也能清。MASOLOTU、MAKALTU 自保；BATILGREF、BALAFEOS、DILTO、MORLIS 削弱他；法師維持 Mental Unity 用列魔法清小怪。"],
+["第二章 闘技場","第一次挑戰 1、3（王女線、提督線）、4、5 回合時只派主角，省寺院復活費。多數回合是「先輸→和 Rickett 對話→做依頼→再打就贏」。"],
+["第二章 大異形 怨妒者梅爾吉娜／奧克多納拉斯（メルジーナ／オクトナルス）","都弱土（葉卡 ERLIK、MAERLIK、土の魔窟武器）。MASOLOTU＋CORTU 減傷、KINAPIC 防睡、被清掉的 buff 立刻補。逆轉之右手用在神像排水。奧克多納拉斯（Octonarus）需先讀完 7 座人魚像，並得先打兩次梅爾吉娜（Melgina），先爆發她。"],
+["第三章 要塞道中","巴哈：3F 人馬封魔（MONTINO）成功後幾乎無壓力；7F「吾等榮光」帶有抗惑香的治癒師，法師上減速 debuff 更穩。"],
+["第三章 大異形 守門人（門番／Gatekeeper）","沒有屬性弱點、防禦高→用穿防技。建議 2–3 戰士＋僧侶＋騎士＋忍者。P1：先用渾身の一撃拆兩隻觸手，騎士最後出手放騎士の守り，忍者驅散 Wrath。P2：本體倒地時對魔像用逆轉之右手，弱點只有遠程（不含槍）與盜賊不意打ち打得到，這階段慢慢打留資源。HP 隨腐蝕程度變動。"],
+["第三章 結局與腐蝕","共 4 個結局，前兩個壞結局必經；要達成 Blackmail（好結局）才能進第四章。被腐蝕哨兵發現越多次，Boss 越強。"],
+["第四章 凍結機制","吹雪區每回合先上 10 層凍え再 −2，水屬攻擊 −3，歸零即凍結（速度、命中、閃避大降，雙手武攻擊可擊碎造成大傷）。火屬攻擊、溫泉、營地、碎冰鎚可解除。"],
+["第四章 大腳怪／雪狼首領（ビッグフット／スノーウルフリーダー）","大腳怪（Bigfoot）：火會激怒它；先殺本體，剩下的小大腳怪會大幅弱化。雪狼首領：它被凍結且場上 6 隻以上狼時會放全體 Glacial Storm，盡快打破它的凍結。"],
+["第四章 大異形 戈弗羅（ゴドフロウ／Godefroi，真結局戰）","先拆冰柱（約 1000 HP、弱火，LA- 系呪文好用）；幽靈小孩物理免疫，要 3 回合內用魔法清掉；第一動作必放 Maporfic，盡快驅散否則物理 0 傷。不要一次灌太多傷害以免觸發反擊。建議 2 名補師、2 名群攻法師、騎士の守り。"],
+["第四章 白い虚影（Nullshadow）","不可擊殺，碰到就逃；離開吹雪區就會消失。"]]},
+{tab:"res",heading:"每日／每週／每月例行",items:[
+["每日","日次ミッション（20 寶石＋40 公會點）、寶石商「日替わりの冒険役立ち品一式」100G 換 10 寶石（很多人到後期才發現）、日次依頼（金幣、ガラクタ、經驗時計）、派遣、命の井戸。"],
+["每週","週次ミッション（200 寶石＋600 公會點）、官方網店免費 50 寶石、週次依頼的認識票、寶石商轉職書。巴哈：每週任務台灣時間週日 23:00 重置。"],
+["隔週","坩堝の霊廟收一般冒險者遺骸，巴哈：隔週六 23:00 重置；Lv20 前或 Lv40 後比較好打，Lv30 剛好最難。"],
+["每月","各章大異形討伐獎勵可再拿（聖堂加護等，建議從最新章往回拿）、冒險者遺骸約一個月重生、賞金首討伐勳章兌換、公會點換寶石（1000 點換 250，每月 2 次）與傳說遺骸（8000 點，每月 1 次）。"]]},
+{tab:"res",heading:"抽卡規則與寶石用法",items:[
+["常駐機率","無名 50%、一般 45%、傳說 5%。"],
+["限定池","限定傳說約 2%；每抽送 1 個代幣，100 個可直接換本人，保底成本 18,200 寶石。沒有傳統保底，代幣不跨池，連復刻也不繼承。"],
+["免費玩家節奏","只算固定來源，每月約 2,300 寶石，約 5.5 個月可保底一隻限定傳說；加上活動與補償會更快，但不可能全抽。"],
+["寶石優先用途","限定傳說遺骸、轉職書。不建議買一般「冒険者の遺骸」。紫寶石（エリンの貴石）只能課金，附特典裝備的池通常不划算（例外如三連擊的カシナートの剣）。"],
+["開局","第一次進奈落後立刻回城，街上的骨拾い賣 100G 的骨，可指定 6 名常駐傳說之一：哲魯夫、亞當、愛麗絲、黛波拉、葉卡、拉納維爾。各站共識首選愛麗絲。官方網店另有一次性 800 寶石。"],
+["常駐池分 Type I／II（2026/1/15 起）","Type I：拉納維爾、愛麗絲、亞當、葉卡、哲魯夫、黛波拉。Type II：流浪公主、Gerard、雅蓓妮斯、紅鬍子、凜音、Savia。"],
+["低 Tier 不等於沒用","巴哈提醒：亞曆克斯（アレックス）的騎士の心得、歐拉莉亞（エウラリア）的不屈の闘志、亞當（アダム）的真理の叡智都是珍貴的減傷繼承來源。"]]},
+{tab:"faq",heading:"常見卡關問題",items:[
+["等級卡在 20／30／40 不能升？","要考等級試驗：鉛 Lv20、青銅 30、鐵 40、鋼 50、銅 60。每人需要現等級的認識票，且要參加考試拿到印記。認識票來自引退角色與週次依頼；用寶石買印記不划算。超過上限的經驗會先存著。"],
+["第一章 B6F 傳送點選哪個？","看各傳送房附近的屍體提示：第一具叫你忽略某房、第二具提到前方的光（想北邊）、第三具說跟著消逝的光（想夕陽）。"],
+["B6F 雕像謎題？","面對傳送點時每座雕像對應一名隊員，只修復符合提示的。「遍在的種族」= 人類（含主角）、「賢明長壽」= 精靈、「勇敢戰士」= 戰士、「靈巧」= 盜賊、「最弱」= 力量最低、「賢者」= 知恵最高。答案也可能是一座都不修。"],
+["B7F 毒通道每次都要走？","到 B8F 逆轉 4 個石堆，其中 2 個會開出繞過毒區的捷徑。"],
+["房間淹水快溺死？","先分別嘗試從房間左上、右上出口和來時的路離開，再去啟動雕像排水；可以只帶主角進去。完成一次就不用再做。"],
+["地圖跟攻略長得不一樣？","部分地塊會旋轉互換，主要路線和事件位置相同。"],
+["被困在迷宮出不去？","回標題畫面→齒輪→強制復旧，回到上次存檔點，一天限一次。"],
+["水路裡不能放魔法？","水中無法詠唱，但卷軸可用；「落石の巻物」打サハギン弱點。凜音的技能可在水中代替呪文。記得帶ハーケンの鉤。"],
+["第三章難度暴增怎麼辦？","回水路刷裝、衝到 Lv50 左右、堆閃避。很多人會先卡在 1–3 區，屬正常。"],
+["第二章先走哪條線？","巴哈建議先走教皇線拿聖堂加護技能書，再走提督線、王女線；每條線的進度彼此獨立。"],
+["BP 點錯能重洗嗎？","不行，只有同一化時能重洗一次。"],
+["迷宮裡 MP、SP 怎麼回？","命の井戸每遊戲日一次，或回城住旅館。"],
+["主角名字能改嗎？","用 Cursed Wheel 回到最開始向露露娜蒂（ルルナーデ）報名的地方即可改；冒險者用寶石改名。"],
+["每天幾點換日？","日版 00:00 JST，也就是台灣 23:00。"]]}
+];
+// zh, jp, en, cls, race, al, jt, et, note
+const TIERS=[["愛麗絲", "アリス", "Alice", "僧侶", "精靈", "惡", "SS+", "A", "同排惡/中立增傷、延長 buff/debuff 回合、開局就有全體呪文", ""], ["斷罪的聖少女 愛莉安諾特", "アリアノート", "Arianaute", "騎士", "人類", "善", "SS", "—", "機率替隊友承受單體攻擊並必定防禦；可替一排承傷並大減傷（2026/10 新角）", ""], ["雪袖巫女 愛麗絲", "雪袖アリス", "Alice (Snow-Sleeved Maiden)", "僧侶", "精靈", "惡", "SS", "S", "戰鬥中 1 次全體呪文、減輕惡/中立隊友傷害、機率回 MP/SP", ""], ["柚奈壬姬", "ユズナミキ", "Yuzunamiki", "忍者", "獸人", "惡", "SS", "S", "千紫万紅＋專武柑刺し（巴哈稱柑橘簪）可六連擊；開戰 3 回合強力追擊", ""], ["似夢似醒的預言者 夏莉莉妮雅", "夢現シェリリーニャ", "Shelirionach (Waking Dream)", "法師", "精靈", "惡", "S+", "—", "依消耗 MP 回 MP，MP 低時入睡回 MP（2026/10 新風格）", ""], ["菲利希婭", "フィリシア", "Felicia", "治癒師", "精靈", "惡", "S+", "S", "用呪文耗 MP 時回 HP；給隊友耗 HP 的 buff，轉為持續回復與增傷", ""], ["賽德", "ザイド", "Zeid", "其他", "加爾卡", "惡", "S+", "B", "FF11 合作的暗黑騎士，耗 HP 強化、有 HP/SP 回復技", ""], ["影狼", "カゲロウ", "Kagero", "忍者", "獸人", "惡", "S+", "B", "敵人行動累積「恨み」自動攻擊，能撐住一次致死傷", ""], ["明鏡之牙 獅櫻", "明鏡シオウ", "Shiou (Clear Mirror)", "武士", "獸人", "中立", "S+", "A", "戰鬥中 1 次特大傷害，王戰強；同一化後真正發揮", ""], ["奧溫之閃耀 雅蓓妮斯", "閃耀アベニウス", "Abenius (Radiance of Owen)", "戰士", "人類", "善", "S+", "S", "首擊對慢速敵大傷害，「終の一閃」收尾", ""], ["夏莉莉妮雅", "シェリリーニャ", "Shelirionach", "法師", "精靈", "惡", "S+", "S", "自然回 MP，睡眠時自動發動技能；學聖堂加護或真理の叡智後大幅強化", "小魔女"], ["阿爾博里斯", "アルボリス", "Arboris", "盜賊", "精靈", "中立", "S+", "S", "自身與前後左右的惡/中立隊友閃避、速度上升", ""], ["雅蓓妮斯", "アベニウス", "Abenius", "戰士", "人類", "善", "S+", "S", "戰鬥開始自動攻擊一名敵人且不耗 SP/MP；對魔獸強", "阿貝"], ["悠遠的夏影 葉卡捷琳娜", "水着エカテリーナ", "Yekaterina (Summershade)", "法師", "人類", "中立", "S+", "A", "機率防奇襲；後排時物理減傷、HP 上升", ""], ["葉卡捷琳娜", "エカテリーナ", "Yekaterina", "法師", "人類", "中立", "S+", "A", "機率防奇襲、易察覺陷阱、對不死強，開局就有全體呪文", "葉卡"], ["流浪公主 拉納維爾", "放浪ラナヴィーユ", "Lanavaille (Wanderer Princess)", "騎士", "人類", "善", "S+", "S", "同排善/中立增傷；依單手劍、輕鎧件數提升速度", "浪王女"], ["拉納維爾", "ラナヴィーユ", "Lanavaille", "騎士", "人類", "善", "S+", "S", "同排善/中立增傷、戰後全隊小回復；巴哈建議中期轉戰士當前排輸出", "王女"], ["墜星的建國者 阿爾博里斯", "墜星アルボリス", "Arboris (Fallen Star)", "盜賊", "精靈", "中立", "S", "A", "敵叫援軍時機率立即行動；繼承技提升自身與前後攻擊", ""], ["普利修", "プリッシュ", "Prishe", "其他", "艾爾凡", "中立", "S", "A", "FF11 合作；近戰命中次數疊攻擊與會心，長期戰強", ""], ["常暗之刃 凜音", "常闇リンネ", "Rinne (Eternal Darkness)", "忍者", "精靈", "惡", "S", "A", "一次打 3 名敵人的技能，首擊強", ""], ["水鏡守護者 莉瓦娜", "水鏡リヴァナ", "Livana (Mirror-Mere)", "戰士", "人類", "善", "S", "B", "縱列範圍攻擊；雙手斧時速度與魔防上升", ""], ["破天獨星 薩維亞", "破天サヴィア", "Savia (Shattered Sky)", "騎士", "獸人", "惡", "S", "B", "閃避成功疊攻擊與會心，最多 5 層", ""], ["銀蓮", "アネモネ", "Anemone", "治癒師", "妖精", "善", "S", "A", "強化前排（有代價）、同排善/中立強化；第四章雪地特別好用", ""], ["莉娜莉亞", "リナリア", "Linaria", "盜賊", "人類", "惡", "S", "A", "強化前後左右隊友；非攻擊行動時機率再行動", ""], ["影之守護者 吉拉德", "守護者ジラルド", "Gerard (Guardian)", "騎士", "人類", "善", "S", "B", "3 回合嘲諷＋反擊近中距離攻擊", ""], ["尤爾薩", "ユルサ", "Yrsa", "遊俠", "矮人", "善", "S", "B", "強力 debuff 與傷害技，對魔獸強", ""], ["獅櫻", "シオウ", "Shiou", "武士", "獸人", "中立", "S", "A", "「残花」機率撐住致死；王戰評價大幅提升", ""], ["伊亞瑪斯", "イアルマス", "Iarumas", "其他", "人類", "中立", "S", "A", "Blade & Bastard 合作；能物理攻擊的法師，強力無屬性單體呪文", ""], ["凜音", "リンネ", "Rinne", "忍者", "精靈", "惡", "S", "A", "橫列穿魔防技能，對不死、精靈有效，水中可代替呪文", "女忍"], ["哲魯夫", "ゲルルフ", "Gerulf", "戰士", "矮人", "惡", "S", "B", "雙手武命中上升；凍え、凍結上限高", "火矮"], ["五郎八", "イロハ", "Iroha", "其他", "休姆", "善", "A+", "B", "FF11 合作；連續攻擊威力上升、橫列回復呪文", ""], ["艾妮琪", "アイニッキ", "Ainikki", "其他", "精靈", "善", "A+", "B", "Blade & Bastard 合作；前後排皆可，降低敵一列火耐性", ""], ["修練途中的挑戰者 貝卡南", "挑戦者ベルカナン", "Berkanan (Challenger)", "其他", "人類", "善", "A+", "B", "Blade & Bastard 合作；SP、MP 都多", ""], ["基利昂", "ギリオン", "Gillion", "戰士", "人類", "中立", "A+", "B", "雙手武增傷，單體火力適合王戰", ""], ["金獸的舞姬 黛波拉", "舞姫デボラ", "Debra (Dancing Maiden)", "盜賊", "獸人", "中立", "A+", "B", "會心率、會心傷害、閃避強化", ""], ["千年卿的追憶 亞當", "追想アダム", "Adam (Remembrance)", "法師", "精靈", "惡", "A+", "B", "強化前後的光屬隊友，強力一列光屬呪文", ""], ["莉瓦娜", "リヴァナ", "Livana", "戰士", "人類", "善", "A+", "B", "雙手斧時會心、命中上升；無視距離衰減的技能", ""], ["貝卡南", "ベルカナン", "Berkanan", "其他", "人類", "善", "A+", "B", "Blade & Bastard 合作；能穿輕裝的前排向法師", ""], ["黛波拉", "デボラ", "Debra", "盜賊", "獸人", "中立", "A+", "C", "擊殺回 SP，中立好搭；繼承技是熱門素材", ""], ["亞當", "アダム", "Adam", "法師", "精靈", "惡", "A+", "C", "降低 3–10 MP 法師呪文消耗；有機率減傷", ""], ["艾爾文", "エルヴィン", "Erwin", "法師", "精靈", "中立", "A", "C", "連續施法增傷並降 MP 消耗", ""], ["迦魯巴多斯", "ガルバドゥス", "Galbadus", "騎士", "獸人", "惡", "A", "B", "嘲諷型前排，レイジングキング傷害高", ""], ["奧爾德里克", "オルドリック", "Aldric", "盜賊", "矮人", "中立", "A", "C", "罠發現與解除能力高", ""], ["薩維亞", "サヴィア", "Savia", "騎士", "獸人", "惡", "A", "C", "挑釁＋閃避反擊，後排也能吸引攻擊", ""], ["紅鬍子", "赤ひげ", "Red Beard", "僧侶", "矮人", "中立", "A", "B", "橫列攻擊與抵抗 buff；高難度王戰評價升到 SS", ""], ["吉拉德", "ジラルド", "Gerard", "騎士", "人類", "善", "A", "C", "單手劍時閃避上升，風屬單體技", "狼叔"], ["卡米爾", "カミール", "Camille", "治癒師", "精靈", "善", "A", "B", "防狀態異常；HP 越少回復越強", ""], ["切羽", "キリハ", "Kiriha", "忍者", "人類", "惡", "A", "B", "命中與閃避好堆，二刀流", ""], ["艾莉賽", "エリゼ", "Elise", "戰士", "精靈", "中立", "A", "B", "強化前後的中立隊友，和黛波拉、葉卡相性好", ""], ["米拉娜", "ミラナ", "Milana", "盜賊", "精靈", "惡", "A", "B", "前或後有惡屬隊友時雙方增傷", ""], ["貪婪的聖女 瑪麗安娜", "聖女マリアンヌ", "Marianne (Greedy Saintess)", "僧侶", "人類", "善", "A", "C", "降低 DIOS、MADIOS 的 MP 消耗", ""], ["瑪麗安娜", "マリアンヌ", "Marianne", "僧侶", "人類", "善", "A", "B", "降低 3–10 MP 僧侶呪文消耗", ""], ["寂夜盜賊 米拉娜", "寂夜ミラナ", "Milana (Thief of the Silent Night)", "盜賊", "精靈", "惡", "A", "C", "代表技能：精密攻擊［主動］，對1個敵人進行高命中率的小威力物理攻擊。 Gamerch 日版 A 級。", ""], ["宵藏", "ヨイゾウ", "Yoizou", "武士", "精靈", "善", "B", "C", "炎宿し時特大物理傷害，準備較慢", ""], ["拉斐洛", "ラファエロ", "Raffaello", "僧侶", "人類", "惡", "B", "C", "擊殺回 MP，橫列攻擊同時回前排 HP", ""], ["海因里科", "ハインリコ", "Heinrico", "遊俠", "精靈", "中立", "B", "C", "被奇襲且敵人 4 隻以上時全隊減傷", ""], ["悠遠的夏影 克洛艾", "水着クロエ", "Chloe (Summershade)", "戰士", "獸人", "善", "B", "C", "對人族增傷、減傷", ""], ["武源", "ブゲン", "Bugen", "武士", "矮人", "善", "B", "C", "打弱點屬性時追加傷害", ""], ["芭芭拉", "バルバラ", "Barbara", "騎士", "獸人", "中立", "B", "D", "降低 3–10 SP 騎士技消耗", ""], ["甘道夫", "ガンドルフォ", "Gandolfo", "戰士", "人類", "惡", "B", "C", "降低 3–10 SP 戰士技消耗", ""], ["克拉麗莎", "クラリーサ", "Clarissa", "騎士", "人類", "惡", "B", "C", "周圍中立隊友抗混亂、魅惑、恐懼；巴哈建議優先培養", ""], ["克洛艾", "クロエ", "Chloe", "戰士", "獸人", "善", "B", "C", "戰士基礎能力高，克己加 SP", ""], ["本傑明", "ベンジャミン", "Benjamin", "戰士", "矮人", "中立", "B", "C", "初始力量、生命高", ""], ["瓦爾多爾", "ヴァルドル", "Valdor", "僧侶", "矮人", "善", "B", "D", "初始信仰、生命高", ""], ["芙爾特", "フルート", "Flut", "法師", "精靈", "中立", "B", "C", "初始知恵、速度高", ""], ["寂夜法師 芙爾特", "寂夜フルート", "Flut (Silent Night)", "法師", "精靈", "中立", "B", "D", "克己 MP 成長高，雙手杖增魔力", ""], ["亞莎", "アーシャ", "Asha", "法師", "人類", "善", "B", "C", "少見的人類法師，HP 較高", ""], ["耶米勒", "ヤルミル", "Jarmil", "法師", "人類", "惡", "B", "C", "土屬呪文剋水；兩名以上風屬鄰居時對土增傷", ""], ["夕靜女傑 艾莉賽", "夕凪エリゼ", "Elise (Heroine of the Eventide Calm)", "戰士", "精靈", "中立", "B", "A", "代表技能：命中持續提升（戰士）［被動］，命中持續提升。", ""], ["逢魔法師 亞莎", "逢魔アーシャ", "Asha (Witching Mage)", "法師", "人類", "善", "B", "C", "代表技能：瑪哈黎透［咒文］。 固有被動提高異常狀態與能力下降的成功率；和基本型亞莎不同，可繼承「瑪哈黎透」（Gamerch）。", ""], ["迪諾", "ディノ", "Dino", "法師", "精靈", "中立", "B", "D", "代表技能：莫恩停農［咒文］，以寂靜籠罩大範圍，一定機率使1橫排敵人無法使用咒文。 周回（刷圖）排名 A 級（Gamerch）。", ""], ["逢魔獵人 海因里科", "逢魔ハインリコ", "Heinrico (Witching Hunter)", "遊俠", "精靈", "中立", "C", "—", "代表技能：扇形射擊［主動］，對1橫排敵人進行小威力的物理攻擊。 Gacha Go! 英文表尚未收錄。 不建議優先投資，繼承技仍可當素材。", ""], ["阿米莉婭", "アメリア", "Amelia", "盜賊", "獸人", "惡", "C", "D", "代表技能：匿跡［被動］，先制率持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["亞曆克斯", "アレックス", "Alex", "騎士", "人類", "善", "C", "C", "代表技能：眩暈突襲［主動］，對1個敵人進行中威力的物理攻擊。 不建議優先投資，繼承技仍可當素材。", ""], ["埃米爾", "エーミル", "Emil", "僧侶", "精靈", "善", "C", "D", "代表技能：瑪迪歐斯［咒文］。 不建議優先投資，繼承技仍可當素材。", ""], ["埃卡特", "エッカルト", "Eckart", "騎士", "矮人", "善", "C", "D", "代表技能：集火攻擊［主動］，對1個敵人進行小威力的物理攻擊。 不建議優先投資，繼承技仍可當素材。", ""], ["埃爾多拉多", "エルドラド", "Eldorado", "騎士", "精靈", "善", "C", "D", "代表技能：掩護［主動］。 不建議優先投資，繼承技仍可當素材。", ""], ["嘉莉娜", "ガリーナ", "Galina", "僧侶", "精靈", "惡", "C", "D", "代表技能：迪歐斯［咒文］，詠唱祝福的話語，小回復我方1人的HP。 不建議優先投資，繼承技仍可當素材。", ""], ["讓", "ジャン", "Jean", "盜賊", "人類", "中立", "C", "C", "代表技能：寶物陷阱解除術［被動］，陷阱解除持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["丹尼爾", "ダニエル", "Daniel", "僧侶", "人類", "善", "C", "D", "代表技能：瑪卡魯狄亞［咒文］。 不建議優先投資，繼承技仍可當素材。", ""], ["巴克什", "バケシュ", "Bakesh", "盜賊", "矮人", "惡", "C", "D", "代表技能：寶物陷阱發現術［被動］，寶箱中陷阱的發現率持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["薇薇安娜", "ビビアナ", "Viviana", "盜賊", "人類", "惡", "C", "C", "代表技能：隱匿［主動］，隱匿自身存在，使多個能力值上升。 不建議優先投資，繼承技仍可當素材。", ""], ["菲利普", "フィリプ", "Philip", "盜賊", "精靈", "中立", "C", "C", "代表技能：遲緩攻擊［主動］，對1個敵人進行小威力的物理攻擊。 不建議優先投資，繼承技仍可當素材。", ""], ["歐拉莉亞", "エウラリア", "Eulalia", "騎士", "精靈", "善", "D", "D", "代表技能：後列掩護［主動］。 不建議優先投資，繼承技仍可當素材。", ""], ["埃爾達", "エルダー", "Elda", "戰士", "精靈", "惡", "D", "D", "代表技能：追擊［主動］。 不建議優先投資，繼承技仍可當素材。", ""], ["奧菲麗雅", "オフェーリア", "Ophelia", "戰士", "人類", "中立", "D", "D", "代表技能：反擊［主動］。 不建議優先投資，繼承技仍可當素材。", ""], ["奧利芙", "オリーブ", "Olive", "戰士", "精靈", "中立", "D", "D", "繁中官網此頁未列代表技能。 不建議優先投資，繼承技仍可當素材。", ""], ["加斯頓", "ガストン", "Gaston", "戰士", "人類", "惡", "D", "D", "代表技能：攻擊力持續提升（戰士）［被動］，攻擊力持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["無名人類武士", "人間侍", "Nameless Human Samurai", "武士", "人類", "善", "D", "D", "代表技能：攻擊力・魔力持續提升（固有）［被動］，攻擊力、魔力持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["無名人類女忍者", "人間女忍者", "Nameless Human Female Ninja", "忍者", "人類", "惡", "D", "C", "代表技能：行動速度持續提升［被動］，行動速度持續提升。 周回排名 B 級（Gamerch）。 不建議優先投資，繼承技仍可當素材。", ""], ["無名精靈女法師", "エルフ女魔術師", "Nameless Elf Female Mage", "法師", "精靈", "中立", "D", "D", "代表技能：魔力持續提升［被動］，魔力持續提升。 周回排名 A 級（Gamerch）。", ""], ["無名精靈僧侶", "エルフ僧侶", "Nameless Elf Priest", "僧侶", "精靈", "惡", "E", "D", "代表技能：神力持續提升［被動］，神力持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["無名矮人騎士", "ドワーフ騎士", "Nameless Dwarf Knight", "騎士", "矮人", "中立", "E", "D", "代表技能：HP持續提升［被動］，HP持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["無名人類女僧侶", "人間女僧侶", "Nameless Human Female Priest", "僧侶", "人類", "善", "E", "D", "代表技能：MP持續提升［被動］，MP持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["無名人類戰士", "人間戦士", "Nameless Human Fighter", "戰士", "人類", "中立", "E", "D", "代表技能：攻擊力持續提升［被動］，攻擊力持續提升。 不建議優先投資，繼承技仍可當素材。", ""], ["無名獸人女盜賊", "獣人女盗賊", "Nameless Beastfolk Female Thief", "盜賊", "獸人", "惡", "E", "D", "代表技能：命中持續提升［被動］，命中持續提升。 不建議優先投資，繼承技仍可當素材。", ""]];
+const BOSSES=[
+["第一章 B5F","蠍女（サソリ女／Scorpion Lady）","一周目約 Lv20","風","換位後立刻調回；蓄力時兩人防禦"],
+["第一章 B8F 大異形","赫爾穆特（暫譯；ヘルムート／Helmut）","一周目約 Lv20、二周目約 Lv30","風","鎬頭給前排清瓦礫"],
+["第二章 大異形","怨妒者梅爾吉娜（メルジーナ／Melgina）","Lv30+","土","逆轉之右手用在水神像排水"],
+["第二章 真大異形","奧克多納拉斯（オクトナルス／Octonarus）","多周目後","土","先讀 7 座人魚像，先爆發梅爾吉娜"],
+["第三章 大異形","守門人（門番／Gatekeeper）","Lv50~，通關約 Lv60","無（用穿防）","3 階段，戰士＋騎士＋忍者＋僧侶"],
+["第四章 行程 2","大腳怪（ビッグフット／Bigfoot）","Lv60~","火會激怒","先殺本體"],
+["第四章 行程 6","雪狼首領（スノーウルフリーダー／Snow Wolf Leader）","Lv60~","—","快打破它的凍結"],
+["第四章 大異形","戈弗羅（ゴドフロウ／Godefroi）","Lv60~，上限 70","冰柱弱火","拆冰柱→清幽靈→驅散"]];
+const LEVELING=[
+["Lv8 前","第一章 B2F 聖堂的「赤き紡ぐ女」，進出房間反覆打（Lv8 以上經驗減半）"],
+["Lv20 前","依頼「不死者の行進」4 連戰，用 Cursed Wheel 重接"],
+["Lv45 前","依頼「敵勢力の撃退」"],
+["Lv50 前","依頼「大異形の残香」、船內 2 層、專用依頼"],
+["Lv60 前","不落的要塞（瓜爾達要塞）、南の洞窟、陽炎の洞窟"],
+["Lv70 前","豪雪地帶（伊斯貝克）行程 6"],
+["放置","要塞 3F 後解鎖派遣「地下武者修行」，巴哈：12 小時 2 人約 18–36 萬經驗"]];
+const CLASS_TABLE=[
+["戰士（戦士／Fighter）","前排主輸出，渾身の一撃","力 > 速 > 器 = 運"],
+["騎士（Knight）","坦、護隊，Lv51 騎士の守り","生命 = 速 = 力"],
+["盜賊（盗賊／Thief）","開箱、陷阱、遲緩攻擊","器 ≧ 速 = 力 ≧ 運"],
+["僧侶（Priest）","補血、解狀態、buff","信仰 = 速 > 生命"],
+["法師（魔術師／Mage）","群攻、睡眠、debuff","知恵 ≧ 速 > 信仰"],
+["忍者（Ninja）","高閃避、爆擊即死、驅散","力 = 器 ≧ 速"],
+["武士（侍／Samurai）","王戰單體爆發","力 = 知恵 ≧ 速 > 器"],
+["遊俠（レンジャー／Ranger）","弓群攻、察覺陷阱","器 > 速 > 力"],
+["治癒師（Healer）","調合藥、預防異常的香","速 = 信仰 ≧ 知恵 > 運"]];
+const GEMS=[["每週任務",800],["每日任務",600],["公會補給（隔週）",400],["寶石商每日組（100G）",300],["官方網店每週",200]];
+const LOW_TIER="C–E 級角色（多為無名冒險者與早期常駐角色）已全部併入上方卡片，可用 C／D／E 篩選查看；不建議優先投資，但繼承技能仍可當素材。";
+const LOW_TIER2="本表共收錄繁中官網冒險者介紹的全部 96 名（含逢魔、寂夜、夕靜等別風格），名單與 Gamerch 2026/10/28 排名一一對照。";
+const SOURCES=[
+["日文攻略",[
+["最強キャラランキング（Tier 主要依據）","Gamerch ウィズダフネ攻略Wiki","2026/10/28","https://gamerch.com/wizardry-daphne/877271"],
+["最強キャラランキング","AppMedia","2026/10/28","https://appmedia.jp/wizdaphne/78248189"],
+["序盤の効率的な進め方","Gamerch","2026/09/15","https://gamerch.com/wizardry-daphne/877531"],
+["取り返しのつかない要素と注意点","Gamerch","2026/10/14","https://gamerch.com/wizardry-daphne/877551"],
+["ボーナスポイントと職業別ステ振り","Gamerch","2026/10/07","https://gamerch.com/wizardry-daphne/877316"],
+["おすすめのパーティ編成","Gamerch","2026/10/23","https://gamerch.com/wizardry-daphne/877208"],
+["よくある質問まとめ","Gamerch","","https://gamerch.com/wizardry-daphne/877473"],
+["属性相性の仕組み","Gamerch","2026/10/09","https://gamerch.com/wizardry-daphne/883427"],
+["武器・防具の強化優先度","Gamerch","","https://gamerch.com/wizardry-daphne/877484"],
+["効率的な経験値の稼ぎ方","Gamerch","","https://gamerch.com/wizardry-daphne/877710"],
+["メンタルの回復方法","Gamerch","","https://gamerch.com/wizardry-daphne/877623"],
+["隙を作る方法と効果","Gamerch","","https://gamerch.com/wizardry-daphne/1022503"],
+["転職のやり方","Gamerch","","https://gamerch.com/wizardry-daphne/878251"],
+["克己と継承スキルの強化","Gamerch","","https://gamerch.com/wizardry-daphne/877461"],
+["はじまりの奈落マップ","Gamerch","","https://gamerch.com/wizardry-daphne/877635"],
+["交易水路マップ","Gamerch","","https://gamerch.com/wizardry-daphne/878880"],
+["不落の城塞マップ（推奨Lv）","Gamerch","","https://gamerch.com/wizardry-daphne/905849"],
+["豪雪地帯マップ（推奨Lv）","Gamerch","","https://gamerch.com/wizardry-daphne/954473"],
+["ステータス計算式","wikiwiki.jp","","https://wikiwiki.jp/wiz_daphne/%E5%86%92%E9%99%BA%E8%80%85/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E8%A8%88%E7%AE%97%E5%BC%8F"],
+["ウィズダフネでやるべきルーティン","note（ash_wizdaphne）","2025/12/03","https://note.com/ash_wizdaphne/n/nc2c986149911"],
+["新奈落の来春発表（粉絲整理站，未證實）","ウィザードリィダフネまとめ速報","","https://wizardrydaphne.com/archives/11145"]]],
+["中文（繁中官網、巴哈姆特等）",[
+["2026年10月修正 攻略&工具相關","巴哈姆特 哈啦板","2026-10-21","https://forum.gamer.com.tw/C.php?bsn=70180&snA=4438"],
+["給新手的首周建議","巴哈姆特 哈啦板","2026-06-07","https://forum.gamer.com.tw/C.php?bsn=70180&snA=4403"],
+["新手開局角色怎麼選（含回覆）","巴哈姆特 哈啦板","2026-01-25","https://forum.gamer.com.tw/C.php?bsn=70180&snA=3895"],
+["整理攻略連結 簡易Wiki","巴哈姆特 哈啦板","2025-06-02","https://forum.gamer.com.tw/Co.php?bsn=70180&sn=10834"],
+["新手巫師的學習筆記","巴哈姆特 創作","2025-11-30","https://home.gamer.com.tw/artwork.php?sn=6249468"],
+["冒險者介紹（繁中官方，角色與職業譯名依據）","Wizardry Variants Daphne 官網","2026-10-29","https://wizardry.info/zh-hant/daphne/adventurers/"],
+["固有池 6 個傳說角色介紹（巴哈暱稱來源）","巴哈姆特 哈啦板","2025-03-07","https://forum.gamer.com.tw/C.php?bsn=70180&snA=864"],
+["第二章 貿易水路及競技場圖文流程（蠍女、梅爾吉娜、奧克多納拉斯）","巴哈姆特 哈啦板","2025-11-30","https://forum.gamer.com.tw/C.php?bsn=70180&snA=2525"],
+["第三章「瓜爾達要塞」圖文流程（守門人）","巴哈姆特 精華區","","https://forum.gamer.com.tw/G2.php?bsn=70180&sn=377"],
+["第四章 1~4 周目攻略統整（大腳怪、戈弗羅）","巴哈姆特 哈啦板","","https://forum.gamer.com.tw/C.php?bsn=70180&snA=3849"],
+["第四章攻略（大腳怪、雪狼首領、戈弗羅、伊斯貝克）","Wantplay","2026-03-18","https://wtpgame.com/game_news/wizardry-variants-daphne-ch4-guide/"],
+["大異形赫爾穆特（簡中，暫譯依據）","灰機 wiki","","https://wizdaphne.huijiwiki.com/wiki/%E5%A4%A7%E5%BC%82%E5%BD%A2%E8%B5%AB%E5%B0%94%E7%A9%86%E7%89%B9"],
+["辟邪除妖 中文 Wiki（簡中，巴哈推薦）","灰機 wiki","","https://wizdaphne.huijiwiki.com/wiki/"],
+["職業介紹（繁中官方）","Wizardry Variants Daphne 官網","","https://wizardry.info/zh-hant/daphne/classes/"]]],
+["英文",[
+["Community Guide 首頁","wizardry.fasterthoughts.io","","https://wizardry.fasterthoughts.io/"],
+["FAQ","Community Guide","","https://wizardry.fasterthoughts.io/frequently-asked-questions/"],
+["Party Construction","Community Guide","","https://wizardry.fasterthoughts.io/strategies/party-construction/"],
+["Combat Strategies","Community Guide","2026/09/09","https://wizardry.fasterthoughts.io/strategies/combat-strategies/"],
+["Blacksmithing","Community Guide","","https://wizardry.fasterthoughts.io/equipment/blacksmithing/"],
+["Free-to-Play Resources","Community Guide","","https://wizardry.fasterthoughts.io/appendices/free-to-play-economy/"],
+["Alignment","Community Guide","2026/08/06","https://wizardry.fasterthoughts.io/adventurer-customization/alignment/"],
+["Beginning Abyss GWO","Community Guide","2026/07/24","https://wizardry.fasterthoughts.io/abyss-guides/1-beginning-abyss/important-request-gwo/"],
+["Port Town Grand Legion GWO","Community Guide","2026/10/21","https://wizardry.fasterthoughts.io/abyss-guides/2-port-town-grand-legion/important-request-gwo/"],
+["Guarda Fortress GWO","Community Guide","","https://wizardry.fasterthoughts.io/abyss-guides/3-guarda-fortress/important-request-gwo/"],
+["Isberg GWO（施工中）","Community Guide","2026/06/26","https://wizardry.fasterthoughts.io/abyss-guides/4-isberg/important-request-gwo/"],
+["Tier list（Ver 2.0.0）","Pocket Gamer","2026/10/18","https://www.pocketgamer.com/wizardry-variants-daphne/tier-list/"],
+["Beginner tips","Pocket Gamer","","https://www.pocketgamer.com/wizardry-variants-daphne/guide/"],
+["Tier list（EN 參考欄）","Gacha Go!","2026/10/01","https://gachago.com/en/guides/wizardry-variants-daphne-tier-list-the-best-characters-for-your-team"],
+["Explain the death mechanics","Reddit r/wizardry","2024/10/28","https://www.reddit.com/r/wizardry/comments/1ge5b1n/explain_the_death_mechanics_please/"],
+["Curses!（永久死亡條件）","Reddit r/WizardryDaphne","2025/09/20","https://www.reddit.com/r/WizardryDaphne/comments/1nlrtor/curses/"],
+["Can I perma lose a character","Steam 討論區","2025/07/30","https://steamcommunity.com/app/2379740/discussions/0/604163148655678162/"],
+["2 周年公告（Ver 2.0.0）","Drecom","2026/10/15","https://drecom.co.jp/en/product_news/2026/10/20261015-01.php"]]]];
+
+(function(){
+var state={q:"",tab:"all",tg:"全部",cls:"全部"};
+var TG=["全部","SS+/SS","S+","S","A+","A","B","C","D","E"];
+var CLS=["全部","戰士","騎士","盜賊","僧侶","法師","忍者","武士","遊俠","治癒師","其他"];
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function hit(s){return !state.q||s.toLowerCase().indexOf(state.q)>=0;}
+function mark(s){var t=esc(s);if(!state.q)return t;var q=esc(state.q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");try{return t.replace(new RegExp(q,"gi"),function(m){return "<mark>"+m+"</mark>";});}catch(e){return t;}}
+function inTg(jt,g){if(g==="全部")return true;if(g==="SS+/SS")return jt==="SS+"||jt==="SS";return jt===g;}
+function groupsFor(tab){return GROUPS.filter(function(g){return g.tab===tab;}).map(function(g){return {g:g,items:g.items.filter(function(i){return hit(i[0]+" "+i[1]+" "+g.heading);})};}).filter(function(x){return x.items.length;});}
+function alias(z){var p=z.split(" ");return p.length>1?p[0].slice(0,2)+p[1]+" "+p[0]+p[1]:"";}
+function tHit(t){return hit(t.join(" ")+" "+alias(t[0]));}
+function tierRows(){return TIERS.filter(function(t){return inTg(t[6],state.tg)&&(state.cls==="全部"||t[3]===state.cls)&&tHit(t);});}
+function tierHitAny(){return TIERS.some(tHit);}
+function rowsHit(a){return a.filter(function(r){return hit(r.join(" "));});}
+function srcHit(){return SOURCES.map(function(s){return [s[0],s[1].filter(function(l){return hit(l[0]+" "+l[1]);})];}).filter(function(s){return s[1].length;});}
+var lowHit=function(){return hit(LOW_TIER+" "+LOW_TIER2+" 不建議 低 Tier");};
+var gemHit=function(){return hit("寶石 收入 綠寶石 每月 "+GEMS.map(function(g){return g[0];}).join(" "));};
+function tabHas(t){var g=groupsFor(t).length>0;
+ if(t==="party")return g||rowsHit(CLASS_TABLE).length>0;
+ if(t==="tier")return tierHitAny()||lowHit();
+ if(t==="boss")return g||rowsHit(BOSSES).length>0||rowsHit(LEVELING).length>0||mapsHit().length>0;
+ if(t==="res")return g||gemHit();
+ if(t==="src")return srcHit().length>0;
+ return g;}
+function show(t){return state.q?tabHas(t):(state.tab==="all"||state.tab===t);}
+function renderGroups(t){return groupsFor(t).map(function(x){
+ var inner=x.g.steps?'<ol class="steps">'+x.items.map(function(i){return '<li><b>'+mark(i[0])+'</b><span>'+mark(i[1])+'</span></li>';}).join("")+'</ol>'
+ :'<div class="rows">'+x.items.map(function(i){return '<div class="row"><b>'+mark(i[0])+'</b><span>'+mark(i[1])+'</span></div>';}).join("")+'</div>';
+ return '<details class="sub" open><summary>'+esc(x.g.heading)+'</summary>'+inner+'</details>';}).join("");}
+function table(cols,rows,cls){return '<div class="tw"><table class="'+(cls||"")+'"><thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join("")+'</tr></thead><tbody>'+rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td data-l="'+esc(cols[i])+'">'+c+'</td>';}).join("")+'</tr>';}).join("")+'</tbody></table></div>';}
+function sec(id,title,body,cap){return '<section id="'+id+'" class="sec"><h2><span class="hx">//</span> '+esc(title)+'</h2>'+(cap?'<p class="cap">'+cap+'</p>':'')+body+'</section>';}
+function counts(){var m={};TIERS.forEach(function(t){m[t[6]]=(m[t[6]]||0)+1;});return m;}
+function mapsHit(){return MAPS.map(function(m,i){return [m,i];}).filter(function(p){var m=p[0];return hit(MAPCH[m[0]]+" "+m[1]+" "+m[2]+" 地圖 map マップ");});}
+function bossGallery(){var ks=Object.keys(BOSSIMG);if(state.q&&!hit("boss 圖 "+ks.map(function(k){return BOSSES[k][1];}).join(" ")))return "";
+ return '<details class="sub" open><summary>Boss 圖片（遊戲截圖）</summary><div class="gal boss">'+ks.map(function(k){var b=BOSSES[k];return '<figure><img data-bi="'+k+'" data-zoom="bi" alt="'+esc(b[1])+'"><figcaption>'+mark(b[0]+'：'+b[1].split("（")[0])+'<br><small>圖片來源：<a href="'+b2(k)+'" target="_blank" rel="noopener">AppMedia</a></small></figcaption></figure>';}).join("")+'</div><p class="note">蠍女、赫爾穆特目前找不到可用的 Boss 截圖，暫缺。點圖可放大。</p></details>';}
+function b2(k){return esc(BOSSIMG[k][1]);}
+function mapGallery(){var mh=mapsHit();if(!mh.length)return "";var by={};mh.forEach(function(p){(by[p[0][0]]=by[p[0][0]]||[]).push(p);});
+ return '<details class="sub"'+(state.q?' open':'')+'><summary>各章迷宮地圖（共 '+MAPS.length+' 張，點圖放大）</summary>'+Object.keys(by).map(function(c){var ps=by[c];var s=ps[0][0];return '<h4 class="mh">'+mark(MAPCH[c])+'</h4><div class="gal">'+ps.map(function(p){var m=p[0];return '<figure><img data-mi="'+p[1]+'" data-zoom="mi" alt="'+esc(MAPCH[c]+' '+m[1])+'"><figcaption>'+mark(m[1])+(m[2]!==m[1]?' <small>'+mark(m[2])+'</small>':'')+'</figcaption></figure>';}).join("")+'</div><p class="credit">圖片來源：<a href="'+esc(s[4])+'" target="_blank" rel="noopener">'+esc(s[3])+'</a>（'+esc(s[4])+'）。部分樓層每位玩家的區塊配置不同，樓梯與 Haken 位置共通，地圖僅供參考。</p>';}).join("")+'</details>';}
+function imgSrc(el){var z=el.dataset;return z.pt!=null?PT[z.pt]:z.mi!=null?MAPS[+z.mi][5]:z.bi!=null?BOSSIMG[z.bi][0]:"";}
+var io="IntersectionObserver" in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var el=e.target;el.src=imgSrc(el);io.unobserve(el);}});},{rootMargin:"300px"}):null;
+var hT;function hydrate(){var all=document.querySelectorAll("#main img[data-zoom]");[].forEach.call(all,function(el){el.decoding="async";if(io)io.observe(el);else el.src=imgSrc(el);});clearTimeout(hT);hT=setTimeout(function(){[].forEach.call(document.querySelectorAll("#main img[data-zoom]"),function(el){if(!el.getAttribute("src")){el.src=imgSrc(el);if(io)io.unobserve(el);}});},2500);}
+function openLb(el){var lb=document.getElementById("lb");lb.querySelector("img").src=imgSrc(el);lb.querySelector("p").textContent=el.alt||"";lb.classList.add("on");document.body.style.overflow="hidden";}
+function closeLb(){var lb=document.getElementById("lb");lb.classList.remove("on");lb.querySelector("img").removeAttribute("src");document.body.style.overflow="";}
+function render(){
+ var out="";var any=["start","party","tier","gear","boss","res","faq","src"].some(tabHas);
+ var info=document.getElementById("info");
+ info.innerHTML=state.q?(any?'正在顯示所有分頁中符合「'+esc(state.q)+'」的內容，清空搜尋框可回到分頁瀏覽。':'沒有找到「'+esc(state.q)+'」。可以改用日文或英文原名再試，例如 ヘルムート 或 Helmut。'):"";
+ document.querySelectorAll(".tab").forEach(function(b){b.classList.toggle("on",b.dataset.t===state.tab&&!state.q);});
+ if(!state.q&&state.tab==="all"){
+  out+='<nav class="toc"><div class="toc-t">目錄</div>'+[["ver","目前版本"],["start","新手入門與核心系統"],["party","職業、屬性點與隊伍"],["tier","角色 Tier List"],["gear","技能、裝備、強化鍛造"],["boss","迷宮與 Boss 攻略"],["res","資源、抽卡與每日效率"],["faq","常見卡關 FAQ"],["src","來源連結"]].map(function(x){return '<a href="#'+x[0]+'">'+x[1]+'</a>';}).join("")+'</nav>';
+  out+=sec("ver","目前版本",'<div class="callout info"><b>2026/10/15 Ver 2.0.0 二周年</b><p>新傳說愛莉安諾特（アリアノート／Arianaute）、夏莉莉妮雅新風格「似夢似醒的預言者」（夢現つの予見者）與新內容「断絶の砦」上線。最新主線仍是第四章「豪雪地帶 伊斯貝克」（豪雪地帯イスベルク）（2025/12）；第五個奈落據日本粉絲整理站說預計明年春天，官方尚未確認。</p></div>');
+ }
+ if(show("start"))out+=sec("start","新手入門與核心系統",renderGroups("start"));
+ if(show("party")){var cr=rowsHit(CLASS_TABLE);out+=sec("party","職業、屬性點與隊伍",(cr.length?'<details class="sub" open><summary>9 大職業與 BP 優先順序</summary>'+table(["職業","定位","BP 優先（Gamerch）"],cr.map(function(r){return r.map(mark);}))+'</details>':'')+renderGroups("party"));}
+ if(show("tier")){var m=counts();var tr=tierRows();
+  var f='<div class="filters"><div class="chips" id="tgchips">'+TG.map(function(g){var n=g==="全部"?TIERS.length:g==="SS+/SS"?(m["SS+"]||0)+(m["SS"]||0):(m[g]||0);return '<button class="chip'+(state.tg===g?' on':'')+'" data-tg="'+g+'">'+g+' <small>'+n+'</small></button>';}).join("")+'</div><label class="sel">職業 <select id="clssel">'+CLS.map(function(c){return '<option'+(state.cls===c?' selected':'')+'>'+c+'</option>';}).join("")+'</select></label><span class="cnt">顯示 '+tr.length+' 名</span></div>';
+  var t=tr.length?'<div class="cards">'+tr.map(function(x){var top=x[6]==="SS+"||x[6]==="SS";return '<div class="card'+(top?' top':'')+'"><div class="ch">'+(PT[x[1]]?'<img class="pt" data-pt="'+esc(x[1])+'" data-zoom="pt" alt="'+esc(x[0])+'" width="56" height="70">':'')+'<span class="tier t'+x[6].replace("+","p")+'">'+x[6]+'</span><div class="nm"><b>'+mark(x[0])+'</b><small>'+mark(x[1]+" / "+x[2])+(x[9]?'・巴哈暱稱：'+mark(x[9]):'')+'</small></div><span class="en" title="EN 參考 (Gacha Go! 10/01)">EN '+esc(x[7])+'</span></div><div class="tags"><span>'+mark(x[3])+'</span><span>'+mark(x[4])+'</span><span>'+mark(x[5])+'</span></div><p>'+mark(x[8])+'</p></div>';}).join("")+'</div>':'<p class="empty">這個 Tier 與職業的組合沒有角色，換一個篩選條件試試。</p>';
+  var c='<div class="callout"><b>怎麼看這張表</b><p>各站評價差異很大：Gamerch 把愛麗絲放 SS+，Gacha Go! 放 A；AppMedia 認為主角、愛麗絲、拉納維爾、柚奈壬姬是不可或缺的「基礎建設」。Tier 以「有沒有就差很多」為準，不是沒在上面就不能用，克己與繼承夠多的角色都能過主線。</p></div>';
+  var low=lowHit()?'<details class="sub"'+(state.q?' open':'')+'><summary>C–E 級與收錄範圍說明</summary><p class="plain">'+mark(LOW_TIER)+'</p><p class="plain">'+mark(LOW_TIER2)+'</p></details>':'';
+  out+=sec("tier","角色 Tier List",f+t+c+low,"共收錄繁中官網全部 96 名冒險者（含別風格），卡片左側為官網立繪縮圖（點圖可放大）。角色名稱為繁中官網冒險者介紹的官方譯名（別風格把稱號寫在前面），小字是日文／英文原名與巴哈暱稱。Tier 來自 Gamerch 日版「凸無し」排名（2026/10/28）；EN 欄為 Gacha Go! 英文 Tier（2026/10/01），「—」表示該表尚未收錄。");}
+ if(show("gear"))out+=sec("gear","技能、裝備、強化鍛造",renderGroups("gear"));
+ if(show("boss")){var br=rowsHit(BOSSES),lr=rowsHit(LEVELING);
+  out+=sec("boss","迷宮與 Boss 攻略",(br.length?'<details class="sub" open><summary>各章推薦等級與弱點</summary>'+table(["章節","Boss","推薦等級","弱點","一句話"],br.map(function(r){return r.map(mark);}),"stack")+'<p class="note">推薦等級：第一章取自巴哈玩家實戰，第二章取自 Community Guide，第三、四章取自 Gamerch。Boss 中文名取自繁中版玩家攻略（巴哈姆特、Wantplay），官網沒有列 Boss 名；赫爾穆特只在簡中 wiki 找到，標為暫譯。迷宮繁中名：第一章 初始的奈落、第二章 貿易水路（港口鎮大軍團）、第三章 不落的要塞（瓜爾達要塞）、第四章 豪雪地帶 伊斯貝克。日文名與英文名都附上，方便搜尋影片。</p></details>':'')+bossGallery()+mapGallery()+renderGroups("boss")+(lr.length?'<details class="sub" open><summary>練等路線（Gamerch）</summary>'+table(["等級","地點與方法"],lr.map(function(r){return r.map(mark);}))+'</details>':''));}
+ if(show("res")){var bars=gemHit()?'<details class="sub" open><summary>每月固定綠寶石（オルグの貴石）收入</summary><p class="cap">Community Guide 估算，合計約 2,300 顆／月，不含活動與補償。</p><div class="bars">'+GEMS.map(function(g,i){return '<div class="bar'+(i===0?' em':'')+'"><span class="bl">'+esc(g[0])+'</span><span class="bt"><i style="width:'+(g[1]/8)+'%"></i></span><span class="bv">'+g[1]+'</span></div>';}).join("")+'</div></details>':'';
+  out+=sec("res","資源、抽卡與每日效率",bars+renderGroups("res"));}
+ if(show("faq"))out+=sec("faq","常見卡關 FAQ",renderGroups("faq"));
+ if(show("src"))out+=sec("src","來源連結",srcHit().map(function(s){return '<details class="sub" open><summary>'+esc(s[0])+'</summary><ul class="links">'+s[1].map(function(l){return '<li><a href="'+esc(l[3])+'" target="_blank" rel="noopener">'+mark(l[0])+'</a><small>'+mark(l[1])+(l[2]?' · '+esc(l[2]):'')+'</small></li>';}).join("")+'</ul></details>';}).join(""));
+ document.getElementById("main").innerHTML=out;
+ var tc=document.getElementById("tgchips");if(tc)tc.addEventListener("click",function(e){var b=e.target.closest("[data-tg]");if(b){state.tg=b.dataset.tg;render();}});
+ var cs=document.getElementById("clssel");if(cs)cs.addEventListener("change",function(){state.cls=cs.value;render();});
+ hydrate();
+}
+var lbx=document.createElement("div");lbx.id="lb";lbx.innerHTML='<button aria-label="關閉">×</button><img alt=""><p></p>';document.body.appendChild(lbx);
+lbx.addEventListener("click",closeLb);document.addEventListener("keydown",function(e){if(e.key==="Escape")closeLb();});
+document.getElementById("main").addEventListener("click",function(e){var el=e.target.closest("img[data-zoom]");if(el){e.preventDefault();openLb(el);}});
+document.getElementById("tabs").innerHTML=TABS.map(function(t){return '<button class="tab" data-t="'+t[0]+'">'+t[1]+'</button>';}).join("");
+document.getElementById("tabs").addEventListener("click",function(e){var b=e.target.closest(".tab");if(!b)return;state.tab=b.dataset.t;if(state.q){state.q="";document.getElementById("q").value="";}render();window.scrollTo({top:document.getElementById("main").offsetTop-120,behavior:"smooth"});});
+var timer;document.getElementById("q").addEventListener("input",function(e){clearTimeout(timer);var v=e.target.value;timer=setTimeout(function(){state.q=v.trim().toLowerCase();if(state.q){state.tg="全部";state.cls="全部";}render();},120);});
+document.getElementById("clr").addEventListener("click",function(){document.getElementById("q").value="";state.q="";render();});
+document.getElementById("top").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
+window.addEventListener("scroll",function(){document.getElementById("top").classList.toggle("vis",window.scrollY>600);});
+render();
+})();
+
+</script></body></html>

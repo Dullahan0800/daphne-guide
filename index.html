@@ -200,6 +200,10 @@ button.chipk{font:inherit;font-size:12.5px;color:inherit;cursor:pointer}button.c
 #main .toc{position:sticky;top:var(--bt,104px);z-index:45;background:#07070f;margin:0 -14px 16px;padding:6px 14px;display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:6px;border-bottom:1px solid var(--line);box-shadow:0 6px 12px rgba(0,0,0,.4)}
 #main .toc::-webkit-scrollbar{display:none}#main .toc a{flex:0 0 auto;white-space:nowrap;font-size:12.5px;padding:3px 9px}#main .toc .toc-t{width:auto;flex:0 0 auto;align-self:center;margin-right:4px}
 #main .toc a.cur{border-color:var(--pk);color:#fff;background:rgba(255,43,214,.15);box-shadow:0 0 8px rgba(255,43,214,.3)}
+
+#main .toc .tarr{display:none}
+@media (min-width:768px){#main .toc .tarr{display:flex;align-items:center;justify-content:center;position:sticky;z-index:2;flex:0 0 30px;width:30px;height:30px;align-self:center;border:1px solid #3a3a5a;border-radius:50%;background:#14142a;color:#e8d9a8;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 0 10px 6px #07070f}
+#main .toc .tarr.l{left:0}#main .toc .tarr.r{right:0;margin-left:auto}#main .toc .tarr:hover{background:#24244a}#main .toc .tarr.hid{visibility:hidden}}
 </style></head><body>
 <div class="wrap">
 <header class="hero"><div class="kick">Wizardry Variants Daphne // WVD 攻略中樞</div>
@@ -581,13 +585,20 @@ m.addEventListener('click',function(e){if(e.target===m||e.target.closest('.cdx')
 function toast(t,ok){var d=document.createElement('div');d.className='toast'+(ok?' ok':' ng');d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.classList.add('on');},10);setTimeout(function(){d.classList.remove('on');setTimeout(function(){d.remove();},400);},4000);}
 f.addEventListener('submit',function(e){e.preventDefault();if(f._honey.value)return;var msg=f.message.value.trim();if(!msg){f.message.focus();toast('請先填寫內容');return;}var s=f.querySelector('.fbs');s.disabled=true;s.textContent='送出中…';
 var ac=window.AbortController?new AbortController():null,t1=setTimeout(function(){s.textContent='伺服器較慢，請稍候…';},8000),t2=setTimeout(function(){if(ac)ac.abort();},75000);fetch(EP,{signal:ac?ac.signal:undefined,method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:f.name.value.trim()||'(未填)',contact:f.contact.value.trim()||'(未填)',message:msg,page:location.href.split('?')[0],_subject:'[WVD攻略終端] 新反饋',_template:'table',_captcha:'false',_honey:''})}).then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok&&(j.success===true||j.success==='true'),j:j};});}).then(function(x){if(x.ok){toast('已送出，感謝你的回饋！',1);f.reset();cl();}else toast('暫時無法送出，請稍後再試');}).catch(function(){toast('送出逾時或失敗，可改用 Email：jerry0800580@gmail.com');window.open('mailto:jerry0800580@gmail.com?subject='+encodeURIComponent('[WVD攻略終端] 反饋')+'&body='+encodeURIComponent(msg),'_self');}).finally(function(){clearTimeout(t1);clearTimeout(t2);s.disabled=false;s.textContent='送出';});});})();
+(function(){function T(){return document.querySelector('#main .toc');}
+function upd(){var t=T();if(!t)return;var a=t.querySelector('.tarr.l'),b=t.querySelector('.tarr.r');if(!a)return;var m=t.scrollWidth-t.clientWidth;a.classList.toggle('hid',t.scrollLeft<=2);b.classList.toggle('hid',t.scrollLeft>=m-2);}
+window.__tocArr=upd;
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.tarr');if(!b)return;e.preventDefault();var t=T();t.scrollBy({left:(b.classList.contains('l')?-1:1)*t.clientWidth*0.7,behavior:'smooth'});setTimeout(upd,450);});
+document.addEventListener('wheel',function(e){var t=e.target.closest&&e.target.closest('#main .toc');if(!t||innerWidth<768)return;if(Math.abs(e.deltaY)>Math.abs(e.deltaX)&&t.scrollWidth>t.clientWidth){t.scrollLeft+=e.deltaY;e.preventDefault();upd();}},{passive:false});
+document.addEventListener('scroll',function(e){if(e.target&&e.target.classList&&e.target.classList.contains('toc'))upd();},true);
+addEventListener('resize',upd);setInterval(upd,1000);})();
 function render(){
  var out="";var any=["start","party","tier","gear","boss","sys","eq","skill","item","mon","res","faq","src"].some(tabHas);
  var info=document.getElementById("info");
  info.innerHTML=state.q?(any?'正在顯示所有分頁中符合「'+esc(state.q)+'」的內容，清空搜尋框可回到分頁瀏覽。':'沒有找到「'+esc(state.q)+'」。可以改用日文或英文原名再試，例如 ヘルムート 或 Helmut。'):"";
  document.querySelectorAll(".tab").forEach(function(b){b.classList.toggle("on",b.dataset.t===state.tab&&!state.q);});
  if(!state.q&&state.tab==="all"){
-  out+='<nav class="toc"><div class="toc-t">目錄</div>'+[["ver","目前版本"],["start","新手入門與核心系統"],["party","職業、屬性點與隊伍"],["tier","角色 Tier List"],["gear","技能、裝備、強化鍛造"],["boss","迷宮與 Boss 攻略"],["sys","詛咒之輪、心器之淵、有緣人"],["eq","裝備一覽與取得方式"],["skill","技能・咒文一覽"],["item","道具一覽"],["mon","魔物與屬性相剋"],["res","資源、抽卡與每日效率"],["faq","常見卡關 FAQ"],["src","來源連結"]].map(function(x){return '<a href="#'+x[0]+'">'+x[1]+'</a>';}).join("")+'</nav>';
+  out+='<nav class="toc"><button type="button" class="tarr l" aria-label="向左">‹</button><div class="toc-t">目錄</div>'+[["ver","目前版本"],["start","新手入門與核心系統"],["party","職業、屬性點與隊伍"],["tier","角色 Tier List"],["gear","技能、裝備、強化鍛造"],["boss","迷宮與 Boss 攻略"],["sys","詛咒之輪、心器之淵、有緣人"],["eq","裝備一覽與取得方式"],["skill","技能・咒文一覽"],["item","道具一覽"],["mon","魔物與屬性相剋"],["res","資源、抽卡與每日效率"],["faq","常見卡關 FAQ"],["src","來源連結"]].map(function(x){return '<a href="#'+x[0]+'">'+x[1]+'</a>';}).join("")+'<button type="button" class="tarr r" aria-label="向右">›</button></nav>';
   out+=sec("ver","目前版本",'<div class="callout info"><b>2026/10/15 Ver 2.0.0 二周年</b><p>新傳說愛莉安諾特（アリアノート／Arianaute）、夏莉莉妮雅新風格「似夢似醒的預言者」（夢現つの予見者）與新內容「断絶の砦」上線。最新主線仍是第四章「豪雪地帶 伊斯貝克」（豪雪地帯イスベルク）（2025/12）；第五個奈落據日本粉絲整理站說預計明年春天，官方尚未確認。</p></div>'+'<div class="callout info"><b>最新更新（官方繁中公告）</b><ul class="plain">'+VER21.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul><p class="credit">來源：<a href="https://wizardry.info/zh-hant/daphne/news/news/ver2-1-0/" target="_blank" rel="noopener">官方 Ver2.1.0 公告</a>、<a href="https://wizardry.info/zh-hant/daphne/news/" target="_blank" rel="noopener">官方公告列表</a></p></div><div class="gal boss">'+['v210','n1','n2','n3','n4','n5'].map(function(k){return '<figure><img data-ni="'+k+'" data-zoom="ni" alt="官方公告圖"><figcaption><small>圖片：官方公告（wizardry.info/zh-hant）</small></figcaption></figure>';}).join('')+'</div>');
  }
  if(show("start"))out+=sec("start","新手入門與核心系統",renderGroups("start"));

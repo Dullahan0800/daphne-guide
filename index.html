@@ -186,6 +186,16 @@ button.chipk{font:inherit;font-size:12.5px;color:inherit;cursor:pointer}button.c
 .tab.on{scroll-margin:0 40px}
 @media(max-width:700px){#tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;margin-right:-14px;padding-right:14px}#tabs::-webkit-scrollbar{display:none}#tabs .tab{flex:0 0 auto;white-space:nowrap}
 .bar-top.compact{padding-top:6px;padding-bottom:6px}.bar-top.compact .search{display:none}.bar-top.compact #tabs{margin-top:0;padding-right:54px}.bar-top.compact #qbtn{display:block;top:6px}.bar-top.compact.showq .search{display:flex}.bar-top.compact.showq #tabs{margin-top:8px}.bar-top.compact #info{display:none}}
+
+#fbBtn{position:fixed;right:14px;bottom:76px;z-index:60;display:flex;align-items:center;gap:6px;border:1px solid var(--pk);background:linear-gradient(135deg,#2a0f2a,#0d1a2a);color:#fff;border-radius:999px;padding:10px 16px;font:inherit;font-size:14px;cursor:pointer;box-shadow:0 0 16px rgba(255,43,214,.35)}
+#fbBtn:hover{border-color:var(--cy);box-shadow:0 0 18px rgba(0,229,255,.4)}
+#fbModal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(3,3,10,.85);padding:12px;align-items:center;justify-content:center}
+.fbin{position:relative;width:100%;max-width:460px;background:#0b0b18;border:1px solid rgba(255,43,214,.5);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.fbin h3{margin:0;color:var(--pk)}.fbin label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--tx2)}.fbin input,.fbin textarea{background:#121228;border:1px solid var(--line);border-radius:10px;color:var(--tx);padding:9px 10px;font:inherit;font-size:15px}.fbin input:focus,.fbin textarea:focus{outline:none;border-color:var(--cy)}
+.fbin .req{color:var(--pk)}.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}.fbs{background:linear-gradient(90deg,var(--pk),var(--cy));border:0;border-radius:10px;color:#07070f;font:inherit;font-weight:700;padding:10px;cursor:pointer}.fbs:disabled{opacity:.6}
+.toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,20px);opacity:0;z-index:10002;background:#111127;border:1px solid var(--cy);color:#fff;padding:10px 16px;border-radius:12px;transition:.3s;font-size:14px;max-width:90vw}.toast.on{opacity:1;transform:translate(-50%,0)}.toast.ng{border-color:#ff6b8a}
+@media(max-width:700px){#fbBtn{right:14px;bottom:calc(74px + env(safe-area-inset-bottom));padding:10px 12px}#fbBtn b{display:none}#fbBtn span{font-size:20px}}
+.fbin .cdx{position:absolute;top:10px;right:10px;float:none}
 </style></head><body>
 <div class="wrap">
 <header class="hero"><div class="kick">Wizardry Variants Daphne // WVD 攻略中樞</div>
@@ -556,6 +566,16 @@ qb.addEventListener('click',function(){bt.classList.toggle('showq');if(bt.classL
 var set=function(){document.documentElement.style.setProperty('--bh',barH()+'px');};var tk=false;window.addEventListener('scroll',function(){if(tk)return;tk=true;requestAnimationFrame(function(){var c=window.scrollY>220;if(c!==bt.classList.contains('compact')){bt.classList.toggle('compact',c);if(!c)bt.classList.remove('showq');}set();tk=false;});},{passive:true});window.addEventListener('resize',set);set();
 var on=document.querySelector('.tab.on');})();
 document.addEventListener('click',function(e){var l=e.target.closest&&e.target.closest('.toc a');if(!l)return;var id=l.getAttribute('href').slice(1);var el=document.getElementById(id);if(el&&id!=='skill'&&id!=='item'&&id!=='mon'){e.preventDefault();window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-barH()-6,behavior:'auto'});}});
+
+(function(){var EP='https://formsubmit.co/ajax/jerry0800580@gmail.com';
+var b=document.createElement('button');b.type='button';b.id='fbBtn';b.innerHTML='<span>💬</span><b>建議與反饋</b>';b.setAttribute('aria-label','建議與反饋');document.body.appendChild(b);
+var m=document.createElement('div');m.id='fbModal';m.innerHTML='<form class="fbin" novalidate><button type="button" class="cdx" aria-label="關閉">✕</button><h3>建議與反饋</h3><p class="note">發現錯誤、想要的功能、任何意見都歡迎！</p><label>名字（選填）<input name="name" maxlength="60" autocomplete="nickname"></label><label>聯絡方式（選填，Email／Discord 等）<input name="contact" maxlength="120"></label><label><span>內容 <span class="req">*</span></span><textarea name="message" rows="5" maxlength="3000" required></textarea></label><input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off"><button type="submit" class="fbs">送出</button></form>';document.body.appendChild(m);
+var f=m.querySelector('form');var cl=function(){m.style.display='none';document.body.style.overflow='';};
+b.addEventListener('click',function(){m.style.display='flex';document.body.style.overflow='hidden';setTimeout(function(){f.message.focus();},50);});
+m.addEventListener('click',function(e){if(e.target===m||e.target.closest('.cdx'))cl();});document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.style.display==='flex')cl();});
+function toast(t,ok){var d=document.createElement('div');d.className='toast'+(ok?' ok':' ng');d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.classList.add('on');},10);setTimeout(function(){d.classList.remove('on');setTimeout(function(){d.remove();},400);},4000);}
+f.addEventListener('submit',function(e){e.preventDefault();if(f._honey.value)return;var msg=f.message.value.trim();if(!msg){f.message.focus();toast('請先填寫內容');return;}var s=f.querySelector('.fbs');s.disabled=true;s.textContent='送出中…';
+fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:f.name.value.trim()||'(未填)',contact:f.contact.value.trim()||'(未填)',message:msg,page:location.href.split('?')[0],_subject:'[WVD攻略終端] 新反饋',_template:'table',_captcha:'false',_honey:''})}).then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok&&(j.success===true||j.success==='true'),j:j};});}).then(function(x){if(x.ok){toast('已送出，感謝你的回饋！',1);f.reset();cl();}else toast('暫時無法送出，請稍後再試');}).catch(function(){toast('網路錯誤，請稍後再試');}).finally(function(){s.disabled=false;s.textContent='送出';});});})();
 function render(){
  var out="";var any=["start","party","tier","gear","boss","sys","eq","skill","item","mon","res","faq","src"].some(tabHas);
  var info=document.getElementById("info");

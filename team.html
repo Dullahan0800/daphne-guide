@@ -1,0 +1,288 @@
+<!doctype html><html lang="zh-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>自訂隊伍編成（編隊模擬）· 小小冒險者Dullahan的WVD攻略終端</title>
+<meta name="description" content="Wizardry Variants Daphne（辟邪除妖 Variants Daphne）編隊模擬：6 格前後排、等級、獎勵點數、裝備強化與附加加護、站位技能，即時計算能力值。非官方粉絲工具。">
+<link rel="icon" href="img/plush_face.webp">
+<style>
+:root{--pk:#ff2bd6;--cy:#00e5ff;--tx:#e9e9f5;--tx2:#9a9ab8;--line:#24244a;--gd:#e8d9a8}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#2a0f2a,transparent),radial-gradient(900px 500px at 100% 0,#0d1a2a,transparent),#07070f;color:var(--tx);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+a{color:var(--cy)}button,select,input{font:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:14px 14px 90px}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.back{color:var(--cy);text-decoration:none;font-size:14px;border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.kick{font-size:11px;letter-spacing:.3em;color:var(--cy);margin-top:10px}h1{margin:4px 0 10px;font-size:26px;background:linear-gradient(90deg,var(--cy),var(--pk));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ban{border:1px solid rgba(0,229,255,.5);background:linear-gradient(90deg,rgba(0,229,255,.12),rgba(255,43,214,.12));border-radius:14px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.ban .tag{font-size:12px;color:#07070f;background:var(--cy);border-radius:999px;padding:2px 10px;font-weight:700}.ban .tag.t2{background:var(--pk)}.ban .nm{font-size:22px;font-weight:800}.ban .meta{font-size:12px;color:var(--tx2);width:100%}
+.ban input,.ban select{background:#121228;border:1px solid var(--line);border-radius:10px;color:var(--tx);padding:7px 10px;font-size:15px;max-width:100%}.ban input{font-weight:800;min-width:0;flex:1 1 140px}
+.ban button{border:1px solid var(--line);background:#121228;color:var(--tx);border-radius:10px;padding:7px 10px;cursor:pointer}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.acts button{flex:1 1 auto;border:1px solid var(--line);background:#121228;color:var(--tx);border-radius:10px;padding:9px 12px;font-size:14px;cursor:pointer}
+.acts .pri{background:linear-gradient(90deg,var(--pk),var(--cy));color:#07070f;font-weight:800;border:0}
+.url{font-size:12px;color:var(--tx2);background:#0b0b18;border:1px dashed var(--line);border-radius:10px;padding:8px 10px;word-break:break-all;max-height:4.6em;overflow:hidden}.url code{color:var(--cy)}
+.rowh{margin:16px 0 6px;font-weight:700;color:var(--pk);font-size:14px}.rowh small{color:var(--tx2);font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.m{position:relative;border:1px solid var(--line);background:#0b0b18;border-radius:14px;overflow:hidden;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:box-shadow .2s,border-color .2s}
+.m:hover{border-color:var(--cy);box-shadow:0 0 14px rgba(0,229,255,.35)}
+.m.buffed{border-color:#7dffa8;box-shadow:0 0 16px rgba(125,255,168,.45)}.m.src{outline:2px dashed rgba(255,43,214,.7);outline-offset:-3px}
+.pt{position:relative;aspect-ratio:4/5;background:#121228;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.pt img.p{width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none}
+.empty .pt .plus{font-size:44px;color:var(--cy);opacity:.6}.pt .nop{font-size:12px;color:var(--tx2);margin-top:4px}
+.bd{position:absolute;top:6px;left:6px;display:flex;gap:4px;align-items:center}.bd img{width:22px;height:22px;filter:drop-shadow(0 0 2px #000)}.ali{font-size:11px;padding:1px 6px;border-radius:6px;background:rgba(7,7,15,.8);border:1px solid var(--line)}
+.ali.g{color:#9fe3ff}.ali.n{color:#ddd}.ali.e{color:#ff8a8a}
+.lv{position:absolute;top:6px;right:6px;font-size:12px;font-weight:800;background:rgba(7,7,15,.85);border:1px solid var(--pk);border-radius:8px;padding:1px 6px}
+.bf{position:absolute;bottom:6px;left:6px;font-size:11px;background:rgba(10,40,20,.9);color:#7dffa8;border-radius:6px;padding:1px 6px}
+.inf{padding:7px 8px}.inf .n{font-weight:800;font-size:15px;line-height:1.2;word-break:break-all}.inf .j{font-size:10px;color:var(--tx2)}.inf .c{font-size:12px;color:var(--cy)}
+.mini{font-size:11px;color:var(--tx2);margin-top:3px}.mini b{color:var(--tx)}
+.gear{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;margin-top:6px}.gi{min-width:0;position:relative;background:#121228;border:1px solid var(--line);border-radius:6px;aspect-ratio:1}
+.gi img{width:100%;height:100%;object-fit:contain}.gi b{position:absolute;right:0;bottom:-1px;font-size:9px;color:#fff;background:rgba(7,7,15,.85);border-radius:4px;padding:0 2px}
+.cb{display:flex;gap:4px;margin-top:6px}.cb button{flex:1;border:1px solid var(--line);background:#121228;color:var(--tx);border-radius:8px;padding:5px 0;font-size:12px;cursor:pointer}
+.hint{font-size:12px;color:var(--tx2);margin-top:8px}
+.fxb{margin-top:18px;border:1px solid var(--line);border-radius:14px;padding:10px 14px;background:#0b0b18}.fxb h2{font-size:15px;margin:0 0 6px;color:var(--pk)}
+#fx{margin:0;padding-left:18px;font-size:13px;line-height:1.6}#fx li{margin:4px 0}#fx li.off{color:var(--tx2)}#fx .tgt{color:#7dffa8;font-size:12px}#fx li.off .tgt{color:var(--tx2)}#fx small{color:var(--tx2)}
+.src2{font-size:12px;color:var(--tx2);margin-top:16px;line-height:1.7}
+.ov{display:none;position:fixed;inset:0;z-index:99;background:rgba(3,3,10,.86);align-items:center;justify-content:center;padding:10px}.ov.on{display:flex}
+.pi,.ei{width:100%;max-width:560px;max-height:92vh;overflow:auto;background:#0b0b18;border:1px solid rgba(0,229,255,.5);border-radius:16px;padding:14px;position:relative}
+.ei{max-width:680px;border-color:rgba(255,43,214,.5)}
+.pi h3,.ei h3{margin:0 0 2px;color:var(--cy);padding-right:40px}.ei h3{color:var(--pk)}.pi .sub{font-size:12px;color:var(--tx2);margin-bottom:10px}
+.cdx{position:sticky;top:0;float:right;width:34px;height:34px;border-radius:8px;border:1px solid var(--cy);background:#0b0b18;color:var(--cy);font-size:18px;cursor:pointer;z-index:2}
+.php{float:right;width:76px;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:10px;margin:0 8px 6px 8px;border:1px solid var(--line)}
+.tr{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:10px;clear:both}.tr div{background:#121228;border:1px solid var(--line);border-radius:8px;text-align:center;padding:5px 0}.tr small{display:block;font-size:11px;color:var(--tx2)}.tr b{font-size:16px}.tr i{display:block;font-style:normal;font-size:9px;color:var(--gd)}
+.pool{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}.pool div{border-radius:8px;padding:6px 8px;background:#121228;border:1px solid var(--line)}.pool small{color:var(--tx2);font-size:11px;display:block}.pool b{font-size:18px}
+.st{display:grid;grid-template-columns:1fr 1fr;gap:2px 14px;font-size:14px}.st>div{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dashed var(--line);padding:4px 0}
+em{font-style:normal;color:#7dffa8;font-size:12px;margin-left:4px}.st s{text-decoration:none;color:var(--tx2);font-size:10px;margin-left:4px}
+.foot{font-size:11px;color:var(--tx2);margin-top:10px;line-height:1.6}
+.fbs{width:100%;margin-top:12px;background:linear-gradient(90deg,var(--pk),var(--cy));border:0;border-radius:10px;color:#07070f;font-weight:800;padding:10px;cursor:pointer}
+.ghost{border:1px solid #ff6b8a;background:transparent;color:#ff9db0;border-radius:10px;padding:10px;cursor:pointer}
+.eb{display:flex;gap:8px;margin-top:12px}.eb .fbs{margin-top:0;flex:1}
+.er{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.er label,.bpg label,.gr label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--tx2);flex:1 1 140px;min-width:0}
+.ei select,.ei input{background:#121228;border:1px solid var(--line);border-radius:8px;color:var(--tx);padding:7px 8px;font-size:15px;width:100%;min-width:0}
+.sec{margin:12px 0 4px;font-weight:700;color:var(--cy);font-size:13px}.sec2{margin:10px 0;font-size:13px}.sec2 summary{cursor:pointer;color:var(--cy)}
+.bpg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.sec2 .bpg{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:6px}
+.gs{border:1px solid var(--line);border-radius:10px;padding:8px;margin:6px 0;background:#0e0e20}.gs.dis{color:var(--tx2);font-size:13px;display:flex;gap:8px}
+.gh{display:flex;align-items:center;gap:6px}.gh img{width:30px;height:30px;object-fit:contain}.gh b{font-size:13px;white-space:nowrap;color:var(--gd)}.gh select{flex:1}
+.gr{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}.gr label{flex:1 1 90px}
+.gv{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;margin-top:6px;color:var(--tx)}.gv .est{color:var(--gd)}
+.note{font-size:11px;color:var(--tx2);margin:4px 0}
+.adl{display:grid;grid-template-columns:2fr 1fr 1fr;gap:6px;margin-top:4px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#121228;border:1px solid var(--cy);color:var(--tx);padding:10px 16px;border-radius:12px;z-index:200}
+footer{margin-top:24px;text-align:center;font-size:12px;color:var(--tx2)}footer b{color:var(--gd)}
+@media(max-width:600px){.wrap{padding:10px 10px 90px}h1{font-size:20px}.grid{gap:6px}.inf{padding:5px}.inf .n{font-size:13px}.gear{grid-template-columns:repeat(4,minmax(0,1fr))}.bd img{width:18px;height:18px}.acts button{font-size:13px;padding:8px}.mini{font-size:10px}
+.bpg{grid-template-columns:repeat(4,minmax(0,1fr))}.sec2 .bpg{grid-template-columns:repeat(3,minmax(0,1fr))}.tr b{font-size:14px}.st{font-size:13px;gap:0 10px}.pi,.ei{padding:12px;max-height:94vh}.cb button{font-size:11px}}
+</style></head><body><div class="wrap">
+<div class="top"><a class="back" href="./">← 回攻略首頁</a></div>
+<div class="kick">WVD 攻略終端 // 自訂隊伍編成</div><h1>自訂隊伍編成（編隊模擬）</h1>
+<div class="ban" id="ban"></div><div class="acts" id="acts"></div><div class="url" id="url"></div>
+<div class="rowh">前排 <small>（畫面上排・由左到右）</small></div><div class="grid" id="front"></div>
+<div class="rowh">後排 <small>（畫面下排・與上方同欄為前後關係）</small></div><div class="grid" id="back"></div>
+<div class="hint">點一下（手機可長按）冒險者開啟「基本資訊」；✏️ 編輯可換角色、等級、獎勵點數與裝備，數值即時計算。綠框＝受到隊友站位技能影響；粉色虛線＝提供站位效果。本工具不計算戰力。</div>
+<div class="fxb"><h2>站位與隊伍效果</h2><ul id="fx"></ul></div>
+<div class="src2"><b>計算說明與來源</b>：特性值＝初始值＋成長率×等級＋階級加成＋獎勵點數；能力值＝特性值×基本倍率×職業倍率（進位）×（1＋%加成）＋裝備＋固定值加成；HP／MP／SP 依職業＋種族成長。等級 40～89 的 HP／MP／SP 以少 1 級計算。裝備強化表 +0～+20 取自 leveling.guide。星數與文字顏色不影響基本數值（玩家實測）。力量適性等武器特性倍率未公開，標示為「估算」且不計入。<br>來源：<a href="https://leveling.guide/zh-Hant/wizva/guides/stats/" target="_blank" rel="noopener">leveling.guide 能力值</a>、<a href="https://leveling.guide/zh-Hant/wizva/guides/trait-points/" target="_blank" rel="noopener">leveling.guide 特性值</a>、<a href="https://wizdaphne.huijiwiki.com/wiki/%E8%83%BD%E5%8A%9B%E5%80%BC" target="_blank" rel="noopener">灰機wiki 能力值</a>、<a href="https://www.daphne-checker.com/zh-TW/formula" target="_blank" rel="noopener">Daphne Checker 公式</a>、<a href="https://forum.gamer.com.tw/C.php?bsn=70180&amp;snA=285" target="_blank" rel="noopener">巴哈姆特討論串</a>。</div>
+<footer><b>⚠️ 非官方粉絲網站 · 與官方無關</b><br>Wizardry Variants Daphne ©Drecom Co., Ltd. · 本工具數值為推算，以遊戲內為準</footer>
+</div>
+<div class="ov" id="pn"><div class="pi"><button class="cdx" aria-label="關閉">✕</button><div id="pc"></div></div></div>
+<div class="ov" id="ed"><div class="ei"><button class="cdx" aria-label="關閉">✕</button><div id="ec2"></div></div></div>
+<script src="data/team.js?v=60f7450224"></script>
+<script>/* WVD 編隊模擬 stat engine — formulas: leveling.guide stats & trait-points guides */
+var TR=['str','int','pie','vit','agi','dex','luk'];
+var TRN={str:'力量',int:'智慧',pie:'信仰心',vit:'生命力',agi:'敏捷',dex:'靈巧',luk:'運氣'};
+var STK=['attack','magic','divine','defence','magic_defence','critical','critical_avoid','detection','trap_remove','trap_avoid','initiative','hit','avoid','resist'];
+var STN={hp:'HP',mp:'MP',sp:'SP',attack:'攻擊力',magic:'魔力',divine:'神力',defence:'防禦力',magic_defence:'法術防禦力',critical:'會心',critical_avoid:'會心迴避',detection:'探知',trap_remove:'陷阱解除',trap_avoid:'陷阱迴避',initiative:'行動速度',hit:'命中',avoid:'迴避',resist:'抵抗'};
+var W={attack:{str:1},magic:{int:1},divine:{pie:1},defence:{vit:1},magic_defence:{pie:1},critical:{dex:.2},detection:{int:.7,luk:.3},trap_remove:{dex:.7,luk:.3},trap_avoid:{agi:.7,luk:.3},initiative:{agi:1},hit:{dex:.7,luk:.3},avoid:{agi:.7,luk:.3},resist:{pie:.6,vit:.3}};
+function cl(x){return Math.ceil(Math.round(x*1e6)/1e6);}
+function fl(x){return Math.floor(Math.round(x*1e6)/1e6);}
+var PROTA={k:'_p',zh:'主角',ja:'',p:'protagonist.webp',hd:1};
+function charOf(m){if(m.c==='_p')return null;for(var i=0;i<TD.chars.length;i++)if(TD.chars[i].k===m.c)return TD.chars[i];return null;}
+function eqOf(k){return TD._eq?TD._eq[k]:(TD._eq=(function(){var o={};TD.eqs.forEach(function(e){o[e.k]=e;});return o;})())[k];}
+function gradeFor(lv){for(var i=0;i<TD.grades.length;i++)if(TD.grades[i][2]>=lv)return i;return TD.grades.length-1;}
+function info(m){/* identity: job, race, attr, al */
+ var c=charOf(m);
+ if(!c)return {c:null,job:m.j||'fighter',race:m.race||'human',attr:m.attr||'light',al:m.al||'neutral',gen:m.gen||'female',zh:'主角',ja:'',p:'protagonist.webp'};
+ var jk=m.j&&c.jobs.some(function(j){return j.k===m.j;})?m.j:c.jobs[0].k;
+ return {c:c,job:jk,race:c.race,attr:c.attr,al:c.al,gen:c.gen,zh:c.zh,ja:c.ja,p:c.p};
+}
+function jobsOf(m){var c=charOf(m);return c?c.jobs.map(function(j){return j.k;}):Object.keys(TD.classes);}
+function addB(acc,b,src){/* bonus object from data */
+ if(b.kind==='stat'){if(b.flat)acc.f[b.stat]=(acc.f[b.stat]||0)+b.flat;if(b.percent)acc.p[b.stat]=(acc.p[b.stat]||0)+b.percent;}
+ else if(b.kind==='trait'){acc.t[b.trait]=(acc.t[b.trait]||0)+b.flat;}
+ else if(b.kind==='ratio'){acc.r.push([b.source,b.stat,b.percent]);}
+}
+function compute(m,ext){ext=ext||{f:{},p:{}};
+ var I=info(m),c=I.c,lv=Math.max(1,Math.min(130,+m.lv||1)),cls=TD.classes[I.job],race=TD.races[I.race]||TD.races.human;
+ var gi=(m.gr==null||m.gr==='')?gradeFor(lv):+m.gr,gb=TD.grades[gi]?TD.grades[gi][3]:0;
+ var js=TD.jobsrc[I.job],rs=TD.racesrc[I.race],as=TD.attrsrc[I.attr];
+ var acc={f:{},p:{},t:{},r:[]},skf={},T={},Tb={},log=[];
+ // skills
+ if(c){var J=c.jobs.filter(function(j){return j.k===I.job;})[0];
+  J.sk.forEach(function(s){if(s[1]<=lv)s[2].forEach(function(b){addB(acc,b);});});
+  c.uni.forEach(function(u){u[1].forEach(function(b){addB(acc,b);});});
+  var dl=+m.dis||0;if(dl>0&&c.dis[dl-1])c.dis[dl-1].forEach(function(b){addB(acc,b);});}
+ TR.forEach(function(t){var base,rate;
+  if(c){base=c.b[t]-c.jobs[0].b[t]+(c.jobs.filter(function(j){return j.k===I.job;})[0].b[t]);rate=c.g[t]+js.g[t]+rs.g[t]+as.g[t];}
+  else{var gd=TD.gender[I.gen]||{};base=10+js.b[t]+rs.b[t]+as.b[t]+(gd[t]||0);rate=6+(+m.ind||0)+js.g[t]+rs.g[t]+as.g[t];}
+  var bp=+((m.bp||{})[t])||0;Tb[t]=base+fl(rate*lv/100)+gb;T[t]=Tb[t]+bp+(acc.t[t]||0);});
+ // gear
+ var gf={},gp={},gearList=[],two=false;
+ var G=m.g||{};['w','o','h','b','a','l','x'].forEach(function(s){var g=G[s];if(!g||!g.k)return;var e=eqOf(g.k);if(!e)return;
+  if(s==='o'&&two)return;if(s==='w'&&e.part==='both-hands')two=true;
+  var n=Math.max(0,Math.min(e.rr.length-1,+g.n||0)),row=e.rr[n];gearList.push([s,e,n]);
+  e.rs.forEach(function(st,i){gf[st]=(gf[st]||0)+row[i];});
+  (g.ad||[]).forEach(function(a){if(!a||!a[0]||!+a[1])return;if(a[2]==='p')gp[a[0]]=(gp[a[0]]||0)+(+a[1]);else gf[a[0]]=(gf[a[0]]||0)+(+a[1]);});});
+ var F={},P={};STK.concat(['hp','mp','sp']).forEach(function(k){F[k]=(acc.f[k]||0)+(+((m.ex||{})[k])||0)+(ext.f[k]||0);P[k]=(acc.p[k]||0)+(gp[k]||0)+(ext.p[k]||0);});
+ var R={T:T,Tb:Tb,bp:m.bp||{},grade:gi,gb:gb,job:I.job,race:I.race,attr:I.attr,al:I.al,lv:lv,v:{},plus:{},gear:gf,two:two,gearList:gearList,ratio:acc.r};
+ var Lc=(lv>=TD.levelShift.from&&lv<=TD.levelShift.to)?lv-1:lv;
+ function pool(k,tw,corr){var b=cls[k].base+race[k].base,g=(cls[k].growth+race[k].growth)/100;var core=cl((1+tw/1000)*g*Lc*(corr==null?1:corr/100));return b+core;}
+ var core={hp:pool('hp',T.vit),mp:pool('mp',T.int*.7+T.pie*.3,cls.mp.correction),sp:pool('sp',(T.str+T.vit+T.agi+T.dex)*.25,cls.sp.correction)};
+ STK.forEach(function(k){if(k==='critical_avoid'){core[k]=0;return;}var w=W[k],s=0;for(var t in w)s+=T[t]*w[t];
+  acc.r.forEach(function(r){if(r[1]===k)s+=T[r[0]]*r[2]/100;});
+  core[k]=k==='critical'?cl(s):cl(s*cls.m[k]/100);});
+ ['hp','mp','sp'].concat(STK).forEach(function(k){var v=core[k];if(P[k])v=cl(v*(1+P[k]/100));R.v[k]=v+(gf[k]||0)+F[k];R.plus[k]=F[k];});
+ return R;
+}
+/* position: slots 0..2 front (L→R), 3..5 back; column = i%3 */
+function area(a,i,j){var ri=i<3?0:1,rj=j<3?0:1,ci=i%3,cj=j%3;
+ if(a==='all')return true;if(a==='row')return ri===rj;if(a==='column')return ci===cj;
+ if(a==='cross')return i===j||(ri===rj&&Math.abs(ci-cj)===1)||(ci===cj&&ri!==rj);
+ if(a==='behind')return ri===0&&rj===1&&ci===cj;return i===j;}
+function teamEffects(team){/* returns {ext:[6], fx:[list of {from,skill,targets,active,note}]} */
+ var M=team.m,ext=[0,1,2,3,4,5].map(function(){return {f:{},p:{}};}),fx=[];
+ var IN=M.map(function(m){return m&&m.c?info(m):null;});
+ M.forEach(function(m,i){if(!m||!m.c)return;var c=charOf(m);if(!c)return;var I=IN[i],lv=+m.lv||1,keys=[];
+  c.uni.forEach(function(u){if(TD.pos[u[0]])keys.push(u[0]);});
+  c.jobs.filter(function(j){return j.k===I.job;})[0].sk.forEach(function(s){if(TD.pos[s[0]]&&s[1]<=lv&&keys.indexOf(s[0])<0)keys.push(s[0]);});
+  keys.forEach(function(k){var S=TD.pos[k],tg=[],ok=true,why='';
+   function elig(j){var J=IN[j];if(!J)return false;if(S.al&&S.al.indexOf(J.al)<0)return false;if(S.at&&J.attr!==S.at)return false;if(S.rc&&J.race!==S.rc)return false;return true;}
+   for(var j=0;j<6;j++){if(!IN[j]||!area(S.area,i,j))continue;if(j===i&&!S.self)continue;if(elig(j))tg.push(j);}
+   if(S.only){for(var j2=0;j2<6;j2++)if(IN[j2]&&area('row',i,j2)&&S.al&&S.al.indexOf(IN[j2].al)<0){ok=false;why='同列有不符合陣營的夥伴';}}
+   if(S.need2){var cnt=0;for(var j3=0;j3<6;j3++)if(j3!==i&&IN[j3]&&area('cross',i,j3)&&IN[j3].attr===S.at)cnt++;if(cnt<2){ok=false;why='前後左右的'+(TD.attrn[S.at]||'')+'屬性夥伴不足 2 人';}}
+   if(S.trig){var any=false;for(var j4=0;j4<6;j4++)if(j4!==i&&IN[j4]&&area('column',i,j4)&&(!S.al||S.al.indexOf(IN[j4].al)>=0)&&(!S.at||IN[j4].attr===S.at))any=true;if(!any){ok=false;why='前後未編成符合條件的夥伴';}}
+   if(ok&&S.e.length)tg.forEach(function(j){S.e.forEach(function(e){var o=e[2]==='p'?ext[j].p:ext[j].f;o[e[0]]=(o[e[0]]||0)+e[1];});});
+   fx.push({from:i,k:k,zh:S.zh,ja:S.ja,d:S.d,targets:ok?tg:[],active:ok&&tg.length>0,why:why,stat:S.e.length>0});});});
+ return {ext:ext,fx:fx};
+}
+if(typeof module!=='undefined')module.exports={compute:compute,teamEffects:teamEffects,info:info,gradeFor:gradeFor,TR:TR,STK:STK,STN:STN,TRN:TRN,jobsOf:jobsOf,eqOf:eqOf,charOf:charOf};
+
+(function(){
+var $=function(s,r){return (r||document).querySelector(s);},esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+var ALN={good:'善',neutral:'中立',evil:'惡'},ALC={good:'g',neutral:'n',evil:'e'};
+var SLOTS=[['w','武器'],['o','副手（盾）'],['h','頭部'],['b','身體'],['a','手臂'],['l','腳部'],['x','飾品']];
+var PART={w:['one-hand','both-hands'],o:['shield'],h:['head'],b:['body'],a:['arms'],l:['legs'],x:['accessory']};
+var COL=['白','綠','藍','紫','紅'],COLC=['#ddd','#6f6','#6cf','#c8f','#f66'];
+var LS='wvdTeams.v1';
+function load(){try{return JSON.parse(localStorage.getItem(LS))||{cur:null,list:{}};}catch(e){return {cur:null,list:{}};}}
+function saveAll(){try{localStorage.setItem(LS,JSON.stringify(DB));}catch(e){}}
+function newTeam(n){return {n:n||'我的編隊',m:[null,null,null,null,null,null]};}
+var DB=load(),team,shared=false,editing=-1;
+function enc(t){var s=JSON.stringify(t);return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return JSON.parse(decodeURIComponent(escape(atob(s))));}
+function clean(t){if(!t||!Array.isArray(t.m))return newTeam();t.m=t.m.slice(0,6);while(t.m.length<6)t.m.push(null);t.n=String(t.n||'分享的編隊').slice(0,40);return t;}
+var h=location.hash.match(/team=([A-Za-z0-9_-]+)/);
+if(h){try{team=clean(dec(h[1]));shared=true;}catch(e){team=null;}}
+if(!team){if(DB.cur&&DB.list[DB.cur])team=DB.list[DB.cur];else{var id='t'+Date.now();DB.list[id]=newTeam('主線隊');DB.cur=id;team=DB.list[id];saveAll();}}
+function persist(){if(shared)return;DB.list[DB.cur]=team;saveAll();}
+function link(){return location.origin+location.pathname+'#team='+enc(team);}
+function img(p,hd){return p?(hd?'img/por_hd/':'img/por/')+p:'';}
+function portrait(m){if(!m||!m.c)return '';if(m.c==='_p')return 'img/por/protagonist.webp';var c=charOf(m);return c&&c.p?'img/por/'+c.p:'';}
+function portraitHD(m){if(m.c==='_p')return 'img/por_hd/protagonist.webp';var c=charOf(m);return c&&c.p?(c.hd?'img/por_hd/':'img/por/')+c.p:'';}
+var FX,RES;
+function recompute(){FX=teamEffects(team);RES=team.m.map(function(m,i){return m&&m.c?compute(m,FX.ext[i]):null;});}
+function card(m,i){
+ if(!m||!m.c)return '<div class="m empty" data-i="'+i+'"><div class="pt"><span class="plus">＋</span><span class="nop">'+(shared?'空位':'點此加入冒險者')+'</span></div></div>';
+ var I=info(m),R=RES[i],hl=FX.fx.some(function(f){return f.active&&f.targets.indexOf(i)>=0&&f.from!==i;}),src=FX.fx.some(function(f){return f.from===i&&f.active;});
+ var nm=m.nk?esc(m.nk):esc(I.zh),sub=m.nk?'本名：'+esc(I.zh)+(I.ja?' '+esc(I.ja):''):esc(I.ja||'');
+ if(m.c==='_p'){sub=(m.nk?'':'')+'主角 · 露露蒂娜';}
+ var gear=R.gearList.map(function(x){return '<div class="gi" title="'+esc(x[1].zh)+' +'+x[2]+'"><img src="'+x[1].ic+'" alt="" loading="lazy"><b>+'+x[2]+'</b></div>';}).join('');
+ return '<div class="m'+(hl?' buffed':'')+(src?' src':'')+'" data-i="'+i+'"><div class="pt"><img class="p" src="'+portrait(m)+'" alt="" loading="lazy"><div class="bd"><img src="img/el/'+I.attr+'.webp" alt="'+esc(TD.attrn[I.attr]||'')+'" title="'+esc(TD.attrn[I.attr]||'')+'屬性"><span class="ali '+ALC[I.al]+'">'+ALN[I.al]+'</span></div><span class="lv">Lv'+R.lv+'</span>'+(hl?'<span class="bf">✦ 受隊伍效果</span>':'')+'</div><div class="inf"><div class="n">'+nm+'</div><div class="j">'+sub+'</div><div class="c">'+esc(TD.jobn[I.job]||I.job)+'</div><div class="mini">HP <b>'+R.v.hp+'</b> 攻 <b>'+R.v.attack+'</b> 防 <b>'+R.v.defence+'</b> 速 <b>'+R.v.initiative+'</b></div><div class="gear">'+gear+'</div>'+(shared?'':'<div class="cb"><button class="ed" data-e="'+i+'">✏️ 編輯</button><button class="inf2" data-p="'+i+'">📊 資訊</button></div>')+'</div></div>';
+}
+function render(){recompute();
+ $('#ban').innerHTML=shared?'<span class="tag">來自分享的編隊</span><span class="nm">'+esc(team.n)+'</span><span class="meta">開啟分享連結不會覆蓋你自己的編隊。按「複製到我的編隊」或「編輯」後才會存到你的瀏覽器。</span>':'<span class="tag t2">我的編隊</span><input id="tn" value="'+esc(team.n)+'" maxlength="40" aria-label="編隊名稱"><select id="tsel" aria-label="切換編隊">'+Object.keys(DB.list).map(function(k){return '<option value="'+k+'"'+(k===DB.cur?' selected':'')+'>'+esc(DB.list[k].n)+'</option>';}).join('')+'</select><button id="tnew">＋ 新編隊</button><button id="tdel">🗑 刪除</button><span class="meta">自動儲存在你的瀏覽器（localStorage）。</span>';
+ $('#acts').innerHTML=shared?'<button class="pri" id="acopy">📥 複製到我的編隊</button><button id="aedit">✏️ 編輯</button><button id="alink">🔗 複製連結</button><button id="amail">✉️ 寄給自己</button>':'<button id="alink" class="pri">🔗 複製分享連結</button><button id="amail">✉️ 寄給自己</button><button id="aclear">↺ 清空編隊</button>';
+ $('#url').innerHTML='分享連結：<code>'+esc(link())+'</code>';
+ $('#front').innerHTML=team.m.slice(0,3).map(function(m,i){return card(m,i);}).join('');
+ $('#back').innerHTML=team.m.slice(3).map(function(m,i){return card(m,i+3);}).join('');
+ var fx=FX.fx;$('#fx').innerHTML=fx.length?fx.map(function(f){var m=team.m[f.from],nm=m.nk||info(m).zh;return '<li class="'+(f.active?'on':'off')+'"><b>'+esc(f.zh)+'</b> <small>'+esc(f.ja)+'</small>（'+esc(nm)+'）：'+esc(f.d)+'<br><span class="tgt">'+(f.active?'生效對象：'+f.targets.map(function(j){var mm=team.m[j];return esc(mm.nk||info(mm).zh);}).join('、')+(f.stat?'（已計入能力值）':'（戰鬥中效果，不影響面板數值）'):'未生效'+(f.why?'：'+esc(f.why):'：沒有符合條件的夥伴'))+'</span></li>';}).join(''):'<li class="off">目前隊伍沒有與站位相關的技能。</li>';
+}
+function statPanel(i){var m=team.m[i];if(!m||!m.c)return;var R=RES[i],I=info(m);
+ var tr=TR.map(function(t){var b=+((m.bp||{})[t])||0;return '<div><small>'+TRN[t]+'</small><b>'+R.T[t]+'</b>'+(b?'<i>獎勵 +'+b+'</i>':'')+'</div>';}).join('');
+ function pl(k){return R.plus[k]?'<em>(+'+R.plus[k]+')</em>':'';}
+ var pool=['hp','mp','sp'].map(function(k){return '<div><small>'+STN[k]+'</small><b>'+R.v[k]+'</b>'+pl(k)+'</div>';}).join('');
+ var st=STK.map(function(k){return '<div><span>'+STN[k]+'</span><span><b>'+R.v[k]+'</b>'+pl(k)+(R.gear[k]?'<s>裝備 '+(R.gear[k]>0?'+':'')+R.gear[k]+'</s>':'')+'</span></div>';}).join('');
+ var tags=[];R.gearList.forEach(function(x){if(x[1].ch&&x[1].ch.length)tags.push(esc(x[1].zh)+'：'+x[1].ch.map(esc).join('、'));});
+ $('#pc').innerHTML='<img class="php" src="'+portraitHD(m)+'" alt=""><h3>基本資訊 · '+esc(m.nk||I.zh)+'</h3><div class="sub">'+(m.nk?'本名 '+esc(I.zh)+' · ':'')+esc(I.ja||'')+' · '+esc(TD.jobn[I.job])+' · '+esc(TD.racen[I.race]||'')+' · '+esc(TD.attrn[I.attr]||'')+'屬性 · '+ALN[I.al]+' · Lv'+R.lv+' · '+esc(TD.grades[R.grade][1])+'</div><div class="tr">'+tr+'</div><div class="pool">'+pool+'</div><div class="st">'+st+'</div>'+(tags.length?'<div class="foot"><b>裝備特性（估算）</b>：'+tags.join('；')+'。力量適性等武器特性的倍率官方未公開（leveling.guide 亦僅推測、無數值），面板未計入；屬性強化／耐性類只在戰鬥中作用。</div>':'')+'<div class="foot">（+N）＝技能、克己、站位效果、其他固定值加成（不含裝備）。公式：leveling.guide 能力值／特性值指南；數值可能與遊戲有 ±1 誤差，以遊戲內為準。</div>'+(shared?'':'<button class="fbs" data-e="'+i+'">✏️ 編輯這位冒險者</button>');
+ $('#pn').classList.add('on');}
+/* editor */
+function opts(list,sel){return list.map(function(o){return '<option value="'+esc(o[0])+'"'+(String(o[0])===String(sel)?' selected':'')+'>'+esc(o[1])+'</option>';}).join('');}
+function charOpts(sel){var by={};TD.chars.forEach(function(c){(by[c.job]=by[c.job]||[]).push(c);});
+ var s='<option value="">（空位）</option><option value="_p"'+(sel==='_p'?' selected':'')+'>★ 主角（自訂職業・種族・屬性）</option>';
+ Object.keys(by).forEach(function(j){s+='<optgroup label="'+esc(TD.jobn[j]||j)+'">'+by[j].sort(function(a,b){return a.zh.localeCompare(b.zh,'zh-Hant');}).map(function(c){return '<option value="'+c.k+'"'+(c.k===sel?' selected':'')+'>'+esc(c.zh)+'（'+esc(c.ja)+'）</option>';}).join('')+'</optgroup>';});return s;}
+function eqOpts(m,slot,sel){var I=info(m),parts=PART[slot];
+ var L=TD.eqs.filter(function(e){return parts.indexOf(e.part)>=0&&(!e.jobs.length||e.jobs.indexOf(I.job)>=0)&&(!e.races.length||e.races.indexOf(I.race)>=0);});
+ var RK=['wood','lead','bronze','iron','steel','copper','silver','gold','platinum','mythril','adamantite','orichalcum'];
+ L.sort(function(a,b){return RK.indexOf(a.rank)-RK.indexOf(b.rank)||a.zh.localeCompare(b.zh,'zh-Hant');});
+ return '<option value="">（無）</option>'+L.map(function(e){return '<option value="'+e.k+'"'+(e.k===sel?' selected':'')+'>'+esc(e.zh)+(e.ja?'（'+esc(e.ja)+'）':'')+(e.part==='both-hands'?' ・雙手':'')+'</option>';}).join('');}
+var STOPT=[['','（能力值）']].concat(['hp','mp','sp'].concat(STK).map(function(k){return [k,STN[k]];}));
+function editor(i){editing=i;var m=team.m[i]||{c:'',lv:1,bp:{},g:{}};team.m[i]=m.c?m:m;var I=m.c?info(m):null;
+ var hs='<div class="er"><label>冒險者<select id="ec">'+charOpts(m.c)+'</select></label><label>暱稱（選填，遊戲內可改名）<input id="enk" maxlength="20" value="'+esc(m.nk||'')+'"></label></div>';
+ if(m.c){var c=charOf(m),jobs=jobsOf(m);
+  hs+='<div class="er"><label>職業<select id="ej">'+opts(jobs.map(function(j){return [j,TD.jobn[j]||j];}),I.job)+'</select></label><label>等級<input id="elv" type="number" min="1" max="130" value="'+(m.lv||1)+'"></label><label>階級<select id="egr">'+opts([['','依等級自動']].concat(TD.grades.map(function(g,k){return [k,g[1]+'（上限 Lv'+g[2]+'，特性 +'+g[3]+'）'];})),m.gr==null?'':m.gr)+'</select></label></div>';
+  if(m.c==='_p')hs+='<div class="er"><label>種族<select id="erc">'+opts(Object.keys(TD.racesrc).filter(function(r){return TD.races[r];}).map(function(r){return [r,TD.racen[r]||r];}),I.race)+'</select></label><label>屬性<select id="eat">'+opts(Object.keys(TD.attrsrc).map(function(a){return [a,TD.attrn[a]||a];}),I.attr)+'</select></label><label>陣營<select id="eal">'+opts([['good','善'],['neutral','中立'],['evil','惡']],I.al)+'</select></label><label>性別<select id="egn">'+opts([['female','女'],['male','男']],I.gen)+'</select></label><label>成長個體值 0–3<input id="eind" type="number" min="0" max="3" value="'+(+m.ind||0)+'"></label></div>';
+  hs+='<div class="sec">獎勵點數（升階時分配的點數，照遊戲內填）</div><div class="bpg">'+TR.map(function(t){return '<label>'+TRN[t]+'<input data-bp="'+t+'" type="number" min="0" max="99" value="'+(+((m.bp||{})[t])||0)+'"></label>';}).join('')+'</div>';
+  if(c)hs+='<div class="er"><label>克己等級<select id="edis">'+opts([[0,'未修得']].concat(c.dis.map(function(_,k){return [k+1,'Lv'+(k+1)];})),+m.dis||0)+'</select></label></div>';
+  hs+='<details class="sec2"><summary>其他固定加成（遺物之力、有緣人、心器之淵等，選填）</summary><div class="bpg">'+['hp','mp','sp'].concat(STK).map(function(k){return '<label>'+STN[k]+'<input data-ex="'+k+'" type="number" value="'+(+((m.ex||{})[k])||0)+'"></label>';}).join('')+'</div></details>';
+  hs+='<div class="sec">裝備（只列出這個職業與種族可裝備的）</div>';
+  var two=false;SLOTS.forEach(function(S){var s=S[0],g=(m.g||{})[s]||{},e=g.k?eqOf(g.k):null;if(s==='w'&&e&&e.part==='both-hands')two=true;
+   if(s==='o'&&two){hs+='<div class="gs dis"><b>'+S[1]+'</b><span>已裝備雙手武器</span></div>';return;}
+   var n=+g.n||0,co=+g.co||0,lines=co+Math.floor(n/5),ad=g.ad||[];
+   hs+='<div class="gs" data-s="'+s+'"><div class="gh">'+(e?'<img src="'+e.ic+'" alt="">':'')+'<b>'+S[1]+'</b><select data-gk>'+eqOpts(m,s,g.k)+'</select></div>';
+   if(e){hs+='<div class="gr"><label>強化<select data-gn>'+opts(e.rr.map(function(_,k){return [k,'+'+k];}),n)+'</select></label><label>星數<select data-gst>'+opts([0,1,2,3,4,5].map(function(k){return [k,k?'★'.repeat(k):'無'];}),+g.st||0)+'</select></label><label>文字顏色<select data-gco>'+opts(COL.map(function(c,k){return [k,c+'（初始加護 '+k+' 條）'];}),co)+'</select></label></div><div class="gv">'+e.rs.map(function(st,k){var v=e.rr[n][k];return '<span>'+STN[st]+' '+(v>0?'+':'')+v+'</span>';}).join('')+(e.ch.length?'<span class="est">特性：'+e.ch.map(esc).join('、')+'</span>':'')+'</div><div class="note">星數與文字顏色不影響基本數值（玩家實測）；附加加護數值隨機，請照遊戲內填。可填 '+lines+' 條（顏色 '+co+' 條 + 強化 +5/+10/+15/+20 各 1 條）。</div>';
+    for(var k=0;k<lines;k++){var a=ad[k]||['','',''];hs+='<div class="adl" data-k="'+k+'"><select data-as>'+opts(STOPT,a[0])+'</select><input data-av type="number" value="'+esc(a[1])+'" placeholder="數值"><select data-au>'+opts([['f','固定值'],['p','%']],a[2]||'f')+'</select></div>';}}
+   hs+='</div>';});
+ }
+ $('#ec2').innerHTML='<h3>'+(i<3?'前排':'後排')+' 第 '+(i%3+1)+' 格</h3>'+hs+'<div class="eb">'+(m.c?'<button id="erm" class="ghost">移出隊伍</button>':'')+'<button id="eok" class="fbs">完成</button></div>';
+ $('#ed').classList.add('on');}
+function readEditor(){var i=editing;if(i<0)return;var m=team.m[i]||{};var ec=$('#ec').value;
+ if(ec!==(m.c||'')){m={c:ec,lv:m.lv||1,bp:{},g:{},nk:$('#enk').value.trim()};if(ec==='_p'){m.j='wanderer';m.race='human';m.attr='light';m.al='neutral';m.gen='female';}team.m[i]=ec?m:null;return;}
+ if(!ec){team.m[i]=null;return;}
+ m.nk=$('#enk').value.trim();var nj=$('#ej')?$('#ej').value:m.j;var jobChanged=nj!==info(m).job;m.j=nj;
+ m.lv=Math.max(1,Math.min(130,+$('#elv').value||1));var gr=$('#egr').value;m.gr=gr===''?null:+gr;
+ if(m.c==='_p'){var oldr=m.race;m.race=$('#erc').value;m.attr=$('#eat').value;m.al=$('#eal').value;m.gen=$('#egn').value;m.ind=Math.max(0,Math.min(3,+$('#eind').value||0));if(oldr!==m.race)jobChanged=true;}
+ m.bp={};document.querySelectorAll('[data-bp]').forEach(function(x){var v=+x.value||0;if(v)m.bp[x.dataset.bp]=v;});
+ m.dis=$('#edis')?+$('#edis').value:0;
+ m.ex={};document.querySelectorAll('[data-ex]').forEach(function(x){var v=+x.value||0;if(v)m.ex[x.dataset.ex]=v;});
+ var g={};document.querySelectorAll('.gs[data-s]').forEach(function(d){var s=d.dataset.s,k=$('[data-gk]',d).value;if(!k)return;var o=(m.g||{})[s]||{};var it={k:k};
+  if(o.k===k&&$('[data-gn]',d)){it.n=+$('[data-gn]',d).value;it.st=+$('[data-gst]',d).value;it.co=+$('[data-gco]',d).value;it.ad=[];d.querySelectorAll('.adl').forEach(function(l){it.ad.push([$('[data-as]',l).value,$('[data-av]',l).value,$('[data-au]',l).value]);});}
+  g[s]=it;});
+ if(jobChanged){for(var s in g){var e=eqOf(g[s].k),I=info(m);if(e&&((e.jobs.length&&e.jobs.indexOf(I.job)<0)||(e.races.length&&e.races.indexOf(I.race)<0)))delete g[s];}}
+ if(g.w&&eqOf(g.w.k)&&eqOf(g.w.k).part==='both-hands')delete g.o;
+ m.g=g;team.m[i]=m;}
+function live(){readEditor();persist();render();var sc=$('#ed .ei').scrollTop;editor(editing);$('#ed .ei').scrollTop=sc;}
+document.addEventListener('change',function(e){if(e.target.closest('#ed'))live();
+ if(e.target.id==='tn'){team.n=e.target.value.trim()||'我的編隊';persist();render();}
+ if(e.target.id==='tsel'){DB.cur=e.target.value;team=DB.list[DB.cur];saveAll();render();}});
+var lp=null,lpFired=false;
+document.addEventListener('pointerdown',function(e){var c=e.target.closest('.m');if(!c||e.target.closest('button'))return;lpFired=false;lp=setTimeout(function(){lpFired=true;statPanel(+c.dataset.i);},450);});
+['pointerup','pointercancel','pointerleave'].forEach(function(t){document.addEventListener(t,function(){clearTimeout(lp);},true);});
+function toast(t){var d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove();},2200);}
+function copy(t){(navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('已複製連結');},function(){prompt('複製這個連結：',t);});}
+function adopt(){var id='t'+Date.now();DB.list[id]=JSON.parse(JSON.stringify(team));DB.cur=id;team=DB.list[id];shared=false;saveAll();history.replaceState(null,'',location.pathname);render();}
+document.addEventListener('click',function(e){var t=e.target;
+ if(lpFired){lpFired=false;if(t.closest('.m')){e.preventDefault();return;}}
+ var b;if((b=t.closest('[data-e]'))){e.stopPropagation();$('#pn').classList.remove('on');if(shared)return;editor(+b.dataset.e);return;}
+ if((b=t.closest('[data-p]'))){statPanel(+b.dataset.p);return;}
+ var c=t.closest('.m');if(c){var i=+c.dataset.i;if(c.classList.contains('empty')){if(!shared)editor(i);}else statPanel(i);return;}
+ if(t.id==='eok'||t.closest('#ed .cdx')){readEditor();persist();$('#ed').classList.remove('on');editing=-1;render();return;}
+ if(t.id==='erm'){team.m[editing]=null;persist();$('#ed').classList.remove('on');editing=-1;render();return;}
+ if(t===$('#ed')){readEditor();persist();$('#ed').classList.remove('on');editing=-1;render();return;}
+ if(t===$('#pn')||t.closest('#pn .cdx')){$('#pn').classList.remove('on');return;}
+ if(t.id==='alink'){copy(link());return;}
+ if(t.id==='amail'){var lines=team.m.map(function(m,i){if(!m||!m.c)return (i<3?'前排':'後排')+(i%3+1)+'：（空）';var I=info(m),R=RES[i];return (i<3?'前排':'後排')+(i%3+1)+'：'+(m.nk?m.nk+'（'+I.zh+'）':I.zh)+' '+(TD.jobn[I.job]||'')+' Lv'+R.lv+' HP'+R.v.hp+' 攻'+R.v.attack+' 防'+R.v.defence;});
+  location.href='mailto:?subject='+encodeURIComponent('[WVD 編隊] '+team.n)+'&body='+encodeURIComponent('編隊：'+team.n+'\n\n'+lines.join('\n')+'\n\n開啟編隊：'+link()+'\n\n— 小小冒險者Dullahan的WVD攻略終端');return;}
+ if(t.id==='acopy'){adopt();toast('已複製到我的編隊');return;}
+ if(t.id==='aedit'){adopt();toast('已存成你的編隊，可以開始編輯');return;}
+ if(t.id==='aclear'){if(confirm('清空這個編隊的 6 個位置？')){team.m=[null,null,null,null,null,null];persist();render();}return;}
+ if(t.id==='tnew'){var id='t'+Date.now();DB.list[id]=newTeam('新編隊 '+(Object.keys(DB.list).length+1));DB.cur=id;team=DB.list[id];saveAll();render();return;}
+ if(t.id==='tdel'){if(Object.keys(DB.list).length<2){toast('至少保留一個編隊');return;}if(confirm('刪除編隊「'+team.n+'」？')){delete DB.list[DB.cur];DB.cur=Object.keys(DB.list)[0];team=DB.list[DB.cur];saveAll();render();}return;}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){$('#pn').classList.remove('on');if(editing>=0){readEditor();persist();$('#ed').classList.remove('on');editing=-1;render();}}});
+window.addEventListener('hashchange',function(){location.reload();});
+window.__team={get:function(){return team;},set:function(t){team=clean(t);render();},res:function(){return RES;},fx:function(){return FX;},panel:statPanel,editor:editor,link:link};
+render();
+})();
+</script>
+</body></html>

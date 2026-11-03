@@ -178,7 +178,7 @@ if(!team){if(DB.cur&&DB.list[DB.cur])team=DB.list[DB.cur];else{var id='t'+Date.n
 function persist(){if(shared)return;DB.list[DB.cur]=team;saveAll();}
 function link(){return location.origin+location.pathname+'#team='+enc(team);}
 function img(p,hd){return p?(hd?'img/por_hd/':'img/por/')+p:'';}
-function portrait(m){if(!m||!m.c)return '';if(m.c==='_p')return 'img/por/protagonist.webp';var c=charOf(m);return c&&c.p?'img/por/'+c.p:'';}
+function portrait(m){if(!m||!m.c)return '';return portraitHD(m);}
 function portraitHD(m){if(m.c==='_p')return 'img/por_hd/protagonist.webp';var c=charOf(m);return c&&c.p?(c.hd?'img/por_hd/':'img/por/')+c.p:'';}
 var FX,RES;
 function recompute(){FX=teamEffects(team);RES=team.m.map(function(m,i){return m&&m.c?compute(m,FX.ext[i]):null;});}

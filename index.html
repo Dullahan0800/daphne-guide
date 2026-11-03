@@ -481,7 +481,7 @@ var state={q:"",tab:"all",tg:"全部",cls:"全部"};
 var TG=["全部","SS+/SS","S+","S","A+","A","B","C","D","E"];
 var CLS=["全部","戰士","騎士","盜賊","僧侶","法師","忍者","武士","遊俠","治癒師","其他"];
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
-function hit(s){return !state.q||s.toLowerCase().indexOf(state.q)>=0;}
+function hit(s){return !state.q||s.toLowerCase().replace(/鍊/g,"鏈").indexOf(state.q)>=0;}
 function jp(s){return '<small class="jp" title="點一下複製日文原文">'+esc(s)+'</small>';}
 function mark(s){var t=esc(s);if(!state.q)return t;var q=esc(state.q).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");try{return t.replace(new RegExp(q,"gi"),function(m){return "<mark>"+m+"</mark>";});}catch(e){return t;}}
 function inTg(jt,g){if(g==="全部")return true;if(g==="SS+/SS")return jt==="SS+"||jt==="SS";return jt===g;}
@@ -532,7 +532,7 @@ function closeLb(){var lb=document.getElementById("lb");lb.classList.remove("on"
 
 var S2={st:"全部",sn:60,ik:"全部",in:60};
 var STY={passive:"被動",active:"主動",spell:"咒文"};
-function hs(s){return !state.q||s.toLowerCase().indexOf(state.q)>=0;}
+function hs(s){return !state.q||s.toLowerCase().replace(/鍊/g,"鏈").indexOf(state.q)>=0;}
 function skHits(){return LSK.filter(function(s){return hs(s.zh+" "+s.ja+" "+s.d+" "+s.cls+" "+s.L.map(function(l){return l[1]+" "+l[2];}).join(" "));});}
 function itHits(){return LIT.filter(function(s){return hs(s.zh+" "+s.ja+" "+s.d+" "+s.kl+" "+s.v.map(function(x){return x.join(" ");}).join(" "));});}
 function fbar(id,opts,cur){return '<div class="fbar" data-f="'+id+'">'+opts.map(function(o){return '<button type="button" class="fb'+(o[0]===cur?' on':'')+'" data-v="'+esc(o[0])+'">'+esc(o[0])+(o[1]!=null?' <small>'+o[1]+'</small>':'')+'</button>';}).join('')+'</div>';}
@@ -673,7 +673,7 @@ document.addEventListener("click",function(e){var el=e.target.closest&&e.target.
 document.getElementById("main").addEventListener("click",function(e){var el=e.target.closest("img[data-zoom]");if(el){e.preventDefault();openLb(el);}});
 document.getElementById("tabs").innerHTML=TABS.map(function(t){return '<button class="tab" data-t="'+t[0]+'">'+t[1]+'</button>';}).join("")+'<button class="tab" id="authBtn" type="button">作者</button>';
 document.getElementById("tabs").addEventListener("click",function(e){var b=e.target.closest(".tab");if(!b)return;state.tab=b.dataset.t;if(state.q){state.q="";document.getElementById("q").value="";}render();window.scrollTo({top:Math.max(0,document.getElementById("main").getBoundingClientRect().top+window.scrollY-barH()-6),behavior:"auto"});});
-var timer;document.getElementById("q").addEventListener("input",function(e){clearTimeout(timer);var v=e.target.value;timer=setTimeout(function(){state.q=v.trim().toLowerCase();if(state.q){state.tg="全部";state.cls="全部";}render();},120);});
+var timer;document.getElementById("q").addEventListener("input",function(e){clearTimeout(timer);var v=e.target.value;timer=setTimeout(function(){state.q=v.trim().toLowerCase().replace(/鍊/g,"鏈");if(state.q){state.tg="全部";state.cls="全部";}render();},120);});
 document.getElementById("clr").addEventListener("click",function(){document.getElementById("q").value="";state.q="";render();});
 document.getElementById("top").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
 window.addEventListener("scroll",function(){document.getElementById("top").classList.toggle("vis",window.scrollY>600);});
